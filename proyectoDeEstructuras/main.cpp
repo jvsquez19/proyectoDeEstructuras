@@ -2,14 +2,21 @@
 //  main.cpp
 //  proyectoDeEstructuras
 //
-//  Created by Jafeth  Vásquez on 10/9/16.
+//  Created by Jafeth  Vásquez and Kembly Quirós on 10/9/16.
 //  Copyright © 2016 Jafeth Vásquez. All rights reserved.
 //
 
 #include <iostream>
+#include "archivador.h"
+
+
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
+    
+    
+    
+
+
+
     return 0;
 }
