@@ -23,18 +23,28 @@ struct preguntaRespuestaCorta{
     string RespuestaCorrecta;
     int PuntajeDePregunta;
     int PuntajeObtenido;
+    
+};
+
+struct nodoPreguntaSeleccionUnica{
+    preguntaSeleccionUnica preguntaActual;
+    nodoPreguntaSeleccionUnica *siguiente;
+};
+
+struct nodoPreguntaRespuestaCorta{
+    preguntaSeleccionUnica preguntaActual;
+    nodoPreguntaRespuestaCorta *siguiente;
 };
 
 
 class seccion{
 private:
-    int valorEnPuntos;
-public:
-    seccion(int puntos){
-        valorEnPuntos = puntos;
-        
-    }
+    int PuntajeDeSeccion;
+    int PuntajeDeSeccionObtenido;
     
+public:
+    void ImprimirInforme();
+    void anadirPregunta();
     
     
 };
