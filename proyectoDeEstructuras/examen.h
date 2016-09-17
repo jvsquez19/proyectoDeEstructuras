@@ -34,7 +34,7 @@ public:
         
         
     }
-    int calificar();
+    int calificarExamen();
     void añadirSeccion(bool tipo, string nombre);
     void borrarSeccion(string nombre);
     void imprimirInforme();
@@ -83,11 +83,12 @@ void examen::borrarSeccion(string nombre){
     }
 }
 
-int examen::calificar(){
+int examen::calificarExamen(){
     int puntaje;
     nodoSeccion *actual = listaSecciones;
     while (actual != NULL) {
-        puntaje += actual->seccionActual->calificar();
+        //puntaje += actual->seccionActual->calificarSeccion();
+        actual = actual->siguiente;
     }
     
     return puntaje;
@@ -111,6 +112,13 @@ string examen::getNombre(){
     return nombre;
 }
 
+void examen::imprimirInforme(){
+    nodoSeccion *tmp = listaSecciones;
+    while(tmp != NULL){
+        cout << listaSecciones->seccionActual->getNombre() << endl;
+        tmp = tmp->siguiente;
+    }
+}
 
 
 
