@@ -80,7 +80,7 @@ void seccion::anadirPregunta(){
         preguntaRespuestaCorta *nuevaPregunta = new preguntaRespuestaCorta;
     else
         preguntaSeleccionUnica *nuevaPregunta = new preguntaSeleccionUnica;
-        
+
 
 }
 
@@ -151,6 +151,9 @@ void examen::anadirSeccion(bool tipo, string nombre){
 
 void examen::borrarSeccion(string nombre){
     nodoSeccion *actual = listaSecciones;
+    if (listaSecciones == NULL){
+        cout<<"Examen vacio. "<<endl;
+        return;}
     if(actual->seccionActual->getNombre() == nombre){
         cout << "Borrando" << actual->seccionActual->getNombre() << endl;
         listaSecciones = actual->siguiente;
@@ -260,6 +263,10 @@ bool archivador::buscarExamen(string nombreExamen){
 
 void archivador::borrarExamen(string nombreExamen){
     nodoExamen *nodoActual = listaExamenes;
+    if (listaExamenes == NULL){
+        cout<<"No hay examenes. "<<endl;
+        return;
+    }
     if (listaExamenes->examenEnNodo->getNombre() == nombreExamen){
         listaExamenes = nodoActual->siguiente;
         free(nodoActual);
@@ -271,9 +278,8 @@ void archivador::borrarExamen(string nombreExamen){
             nodoActual->siguiente = nodoActual->siguiente->siguiente;
             free(nodoBorrar);
             return;
-        } else {
-            nodoActual = nodoActual->siguiente;
         }
+        nodoActual = nodoActual->siguiente;
     }
     cout<<"No existe ese examen!"<<endl;
     return;
