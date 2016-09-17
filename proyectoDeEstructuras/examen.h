@@ -22,8 +22,10 @@ private:
     nodoSeccion *listaSecciones;
     string estudiante;
     string profesor;
+    string nombre;
 public:
-    examen(string profesorEntrante){
+    examen(string profesorEntrante, string entradaNombre){
+        string nombre = entradaNombre;
         puntaje = 0;
         notaObtenida = 0;
         listaSecciones = NULL;
@@ -43,12 +45,10 @@ public:
     int getnotaObtenida();
     void setEstudiante();
     string getEstudiante();
-    void setProfesor();
+    void setProfesor(string profeNuevo);
     string getProfesor();
-    
-    
-    
-    
+    void setNombre(string entradaNombre);
+    string getNombre();
 
 };
 
@@ -92,6 +92,31 @@ int examen::calificar(){
     
     return puntaje;
 }
+
+void examen::setProfesor(string profeNuevo){
+    profesor = profeNuevo;
+    
+}
+
+string examen::getProfesor(){
+    return profesor;
+}
+
+void examen::setNombre(string entradaNombre){
+    nombre = entradaNombre;
+    
+}
+
+string examen::getNombre(){
+    return nombre;
+}
+
+
+
+
+
+
+
 
 
 #endif /* examen_h */
