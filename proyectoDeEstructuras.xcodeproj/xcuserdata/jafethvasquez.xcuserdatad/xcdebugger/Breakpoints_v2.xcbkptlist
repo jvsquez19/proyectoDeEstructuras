@@ -74,9 +74,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "300"
-            endingLineNumber = "300"
-            landmarkName = "adirPregunta()"
-            landmarkType = "9">
+            endingLineNumber = "300">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -155,8 +153,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "257"
             endingLineNumber = "257"
-            landmarkName = "adirPregunta()"
-            landmarkType = "9">
+            landmarkName = "archivador::buscarExamen(string nombreExamen)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

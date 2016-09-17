@@ -37,12 +37,12 @@ struct preguntaRespuestaCorta{
 };
 
 struct nodoPreguntaSeleccionUnica{
-    preguntaSeleccionUnica preguntaActual;
+    preguntaSeleccionUnica *preguntaActual;
     nodoPreguntaSeleccionUnica *siguiente;
 };
 
 struct nodoPreguntaRespuestaCorta{
-    preguntaSeleccionUnica preguntaActual;
+    preguntaRespuestaCorta *preguntaActual;
     nodoPreguntaRespuestaCorta *siguiente;
 };
 
@@ -53,6 +53,8 @@ private:
     int PuntajeDeSeccion;
     int PuntajeDeSeccionObtenido;
     bool tipo; // true-> Respuesta Corta || false-> Seleccion Única
+    nodoPreguntaSeleccionUnica *listaPreguntasSeleccionUnica;
+    nodoPreguntaRespuestaCorta *listaPreguntasRespuestaCorta;
 
 public:
     seccion(bool tipo1, string newnombre){
@@ -76,11 +78,22 @@ string seccion::getNombre(){
 }
 
 void seccion::anadirPregunta(){
-    if (tipo == true)
+    if (tipo){
         preguntaRespuestaCorta *nuevaPregunta = new preguntaRespuestaCorta;
-    else
+        nodoPreguntaRespuestaCorta *nuevoNodo = new nodoPreguntaRespuestaCorta;
+        nuevoNodo->siguiente = listaPreguntasRespuestaCorta;
+        nuevoNodo->preguntaActual = nuevaPregunta;
+        listaPreguntasRespuestaCorta = nuevoNodo;
+        
+    }
+    
+    else{
         preguntaSeleccionUnica *nuevaPregunta = new preguntaSeleccionUnica;
-
+        nodoPreguntaSeleccionUnica *nuevoNodo = new nodoPreguntaSeleccionUnica;
+        nuevoNodo->siguiente = listaPreguntasSeleccionUnica;
+        nuevoNodo->preguntaActual = nuevaPregunta;
+        listaPreguntasSeleccionUnica = nuevoNodo;
+    }
 
 }
 
@@ -236,7 +249,7 @@ private:
 public:
     void anadirExamen(string profesor, string nombreExamen);
     void borrarExamen(string nombreExamen);
-    bool buscarExamen(string nombreExamen);
+    nodoExamen *buscarExamen(string nombreExamen);
     void imprimirExamenes();
 };
 
@@ -251,14 +264,14 @@ void archivador::anadirExamen(string profesor, string nombreExamen){
     cantidadExamenes++;
 }
 
-bool archivador::buscarExamen(string nombreExamen){
+ nodoExamen *archivador::buscarExamen(string nombreExamen){
     nodoExamen *nodoActual = listaExamenes;
     while (nodoActual!=NULL){
         if (nodoActual->examenEnNodo->getNombre()== nombreExamen)//si el nombre del examen es igual al del nodo
-            return true;
+            return nodoActual;
         nodoActual = nodoActual->siguiente;
     }
-    return false ;
+    return NULL ;
 }
 
 void archivador::borrarExamen(string nombreExamen){
