@@ -78,10 +78,10 @@ int examen::calificar(){
     int puntaje;
     nodoSeccion *actual = listaSecciones;
     while (actual != NULL) {
-        actual->seccionActual->calificar()
+        puntaje += actual->seccionActual->calificar();
     }
     
- return puntaje
+    return puntaje;
 }
 
 
