@@ -7,12 +7,14 @@
 //
 
 #include <iostream>
-
+#include  <limits.h>
+#include <string>
+#include <stdlib.h>
 using namespace std;
 /*
- 
- SECCION CLASS 
- 
+
+ SECCION CLASS
+
  Clase donde se encuentra la estructura de seccion y se pueden añadir preguntas.
  *********************************************************************************************************************************************
 
@@ -31,7 +33,7 @@ struct preguntaRespuestaCorta{
     string RespuestaCorrecta;
     int PuntajeDePregunta;
     int PuntajeObtenido;
-    
+
 };
 
 struct nodoPreguntaSeleccionUnica{
@@ -51,31 +53,31 @@ private:
     int PuntajeDeSeccion;
     int PuntajeDeSeccionObtenido;
     bool tipo; // true-> Respuesta Corta || false-> Seleccion Única
-    
+
 public:
     seccion(bool tipo1, string newnombre){
         tipo = tipo1;
         PuntajeDeSeccion = 0;
         nombre = newnombre;
     }
-    
+
     void ImprimirInforme();
     int calificarSeccion();
-    void añadirPregunta();
+    void anadirPregunta();
     void borrarPregunta();
     void setNombre();
     string getNombre();
-    
-    
+
+
 };
 
 string seccion::getNombre(){
     return nombre;
 }
 
-void seccion::añadirPregunta(){
-    
-    
+void seccion::anadirPregunta(){
+
+
 }
 
 
@@ -85,9 +87,9 @@ void seccion::añadirPregunta(){
  *********************************************************************************************************************************************
 
  CLASS EXAMEN.
- 
+
  clase donde se define la estructura del examen y se almacenan sus respectivas secciones.
- 
+
  *********************************************************************************************************************************************
 
  */
@@ -114,11 +116,11 @@ public:
         listaSecciones = NULL;
         estudiante = "";
         profesor = profesorEntrante;
-        
-        
+
+
     }
     int calificarExamen();
-    void añadirSeccion(bool tipo, string nombre);
+    void anadirSeccion(bool tipo, string nombre);
     void borrarSeccion(string nombre);
     void imprimirInforme();
     void modificar();
@@ -132,17 +134,15 @@ public:
     string getProfesor();
     void setNombre(string entradaNombre);
     string getNombre();
-    
+
 };
 
-
-void examen::añadirSeccion(bool tipo, string nombre){
+void examen::anadirSeccion(bool tipo, string nombre){
     seccion *nuevaSeccion = new seccion(tipo, nombre);
     nodoSeccion *nuevoNodo = new nodoSeccion();
     nuevoNodo->seccionActual = nuevaSeccion;
     nuevoNodo->siguiente = listaSecciones;
     listaSecciones = nuevoNodo;
-    
 };
 
 void examen::borrarSeccion(string nombre){
@@ -175,13 +175,13 @@ int examen::calificarExamen(){
         //puntaje += actual->seccionActual->calificarSeccion();
         actual = actual->siguiente;
     }
-    
+
     return puntaje;
 }
 
 void examen::setProfesor(string profeNuevo){
     profesor = profeNuevo;
-    
+
 }
 
 string examen::getProfesor(){
@@ -190,7 +190,7 @@ string examen::getProfesor(){
 
 void examen::setNombre(string entradaNombre){
     nombre = entradaNombre;
-    
+
 }
 
 string examen::getNombre(){
@@ -209,9 +209,9 @@ void examen::imprimirInforme(){
 /*
 *********************************************************************************************************************************************
 CLASS ARCHIVADOR
- 
+
  Clase que se encarga de almacenar y gestionar los examenes.
- 
+
 ******************************************************************************************** ***************************** ******************
 
 */
@@ -225,20 +225,20 @@ class archivador{
 private:
     nodoExamen *listaExamenes;
     int cantidadExamenes;
-    
+
 public:
-    void añadirExamen(string profesor, string nombreExamen);
+    void anadirExamen(string profesor, string nombreExamen);
     void borrarExamen(string nombreExamen);
     bool buscarExamen(string nombreExamen);
     void imprimirExamenes();
 };
 
-void archivador::añadirExamen(string profesor, string nombreExamen){
+void archivador::anadirExamen(string profesor, string nombreExamen){
     nodoExamen *nuevoNodo = new nodoExamen();
     examen *nuevoExamen = new examen(profesor,nombreExamen); //se crea examen con el constructor de examen
-    
+
     nuevoNodo->examenEnNodo = nuevoExamen;//se apunta al examen en nodo el examen que se va a crear
-    
+
     nuevoNodo->siguiente = listaExamenes;
     listaExamenes = nuevoNodo;
     cantidadExamenes++;
@@ -282,47 +282,32 @@ void archivador::imprimirExamenes(){
         cout << tmp->examenEnNodo->getNombre()<<endl;
         tmp = tmp->siguiente;
     }
-    
+
 }
-
-
-/* 
+/*
  *********************************************************************************************************************************************
- 
- MAIN 
- 
+ MAIN
  parte principal donde se ejecuta el codigo
  *********************************************************************************************************************************************
-
  */
-
-int main(int argc, const char * argv[]) {
+int main() {
     examen *examen1 = new examen("julio" , "examen1");
-    examen1->añadirSeccion(true, "RespuestaCorta1");
-    examen1->añadirSeccion(true, "RespuestaCorta2");
-    examen1->añadirSeccion(false, "Selecion Unica");
+    examen1->anadirSeccion(true, "RespuestaCorta1");
+    examen1->anadirSeccion(true, "RespuestaCorta2");
+    examen1->anadirSeccion(false, "Selecion Unica");
     cout << "PROBANDO AÑADIR SECCIONES" << endl;
     examen1->imprimirInforme();
     examen1->borrarSeccion("RespuestaCorta1");
     cout << "PROBANDO BORRAR SECCIONES" << endl;
     examen1->imprimirInforme();
-    
+
     archivador archivadorprincipal = archivador();
-    archivadorprincipal.añadirExamen("beto", "Quimica1");
-    archivadorprincipal.añadirExamen("beto", "algebra2");
-    archivadorprincipal.añadirExamen("beto", "algebra3");
-    archivadorprincipal.añadirExamen("beto", "algebra4");
+    archivadorprincipal.anadirExamen("beto", "Quimica1");
+    archivadorprincipal.anadirExamen("beto", "algebra2");
+    archivadorprincipal.anadirExamen("beto", "algebra3");
+    archivadorprincipal.anadirExamen("beto", "algebra4");
     archivadorprincipal.imprimirExamenes();
     archivadorprincipal.borrarExamen("Quimica1");
     archivadorprincipal.imprimirExamenes();
-    
-    
-    
-    
-    
-    
-
-
-
     return 0;
 }
