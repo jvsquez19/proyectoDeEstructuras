@@ -54,7 +54,7 @@ public:
     }
     
     void ImprimirInforme();
-    int calificar();
+    int calificarSeccion();
     void añadirPregunta();
     void borrarPregunta();
     void setNombre();

@@ -11,7 +11,7 @@
 #include "examen.h"
 
 struct nodoExamen{
-    examen examenEnNodo;
+    examen *examenEnNodo;
     nodoExamen *siguiente;
 };
 
@@ -22,42 +22,42 @@ private:
 
 public:
     void añadirExamen();
-    void borrarExamen();
-    examen buscarExamen();
+    void borrarExamen(string nombreExamen);
+    bool buscarExamen(string nombreExamen);
 };
 
-archivador::añadirExamen(){
+void archivador::añadirExamen(){
     nodoExamen *nuevoNodo = new nodoExamen();
-    examen *nuevoExamen = new examen();//se crea examen con el constructor de examen
+    examen *nuevoExamen = new examen("jose","Ejemplo");//se crea examen con el constructor de examen
 
     nuevoNodo->examenEnNodo = nuevoExamen;//se apunta al examen en nodo el examen que se va a crear
 
-    nuevoNodo->siguiente = archivador.listaExamenes;
-    archivador.listaExamenes = nuevoNodo;
-    archivador.cantidadExamenes++;
+    nuevoNodo->siguiente = listaExamenes;
+    listaExamenes = nuevoNodo;
+    cantidadExamenes++;
 }
 
-archivador::buscarExamen(string nombreExamen){
-    nodoExamen *nodoActual = archivador.listaExamenes;
+bool archivador::buscarExamen(string nombreExamen){
+    nodoExamen *nodoActual = listaExamenes;
     while (nodoActual!=NULL){
-        if (nodoActual->examenEnNodo->nombre== nombreExamen)//si el nombre del examen es igual al del nodo
-            return nodoActual->examenEnNodo;
+        if (nodoActual->examenEnNodo->getNombre()== nombreExamen)//si el nombre del examen es igual al del nodo
+            return true;
     nodoActual = nodoActual->siguiente;
     }
-        return NULL;
+        return false ;
 }
 
-archivador::borrarExamen(string nombreExamen){
-    nodoExamen *nodoActual = archivador.listaExamenes;
-    while ((nodoActual!= NULL) && (nodoActual->examenEnNodo->nombre != nombreExamen)){
+void archivador::borrarExamen(string nombreExamen){
+    nodoExamen *nodoActual = listaExamenes;
+    while ((nodoActual!= NULL) && (nodoActual->examenEnNodo->getNombre() != nombreExamen)){
         nodoActual=nodoActual->siguiente;
     }
         if (nodoActual!=NULL){
-            if (archivador.listaExamenes->examenEnNodo->nombre == nombreExamen){
-            archivador.listaExamenes = nodoActual->siguiente;
+            if (listaExamenes->examenEnNodo->getNombre() == nombreExamen){
+            listaExamenes = nodoActual->siguiente;
             free(nodoActual);
             return;
-        } else if (nodoActual->siguiente->examenEnNodo->nombre == nombreExamen){
+        } else if (nodoActual->siguiente->examenEnNodo->getNombre()== nombreExamen){
             nodoExamen *nodoBorrar = nodoActual->siguiente;
             nodoActual->siguiente = nodoActual->siguiente->siguiente;
             free(nodoBorrar);
