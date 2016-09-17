@@ -75,7 +75,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "300"
             endingLineNumber = "300"
-            landmarkName = "main(int argc, const char * argv[])"
+            landmarkName = "adirPregunta()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -155,8 +155,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "257"
             endingLineNumber = "257"
-            landmarkName = "archivador::borrarExamen(string nombreExamen)"
-            landmarkType = "7">
+            landmarkName = "adirPregunta()"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
