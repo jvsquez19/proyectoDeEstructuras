@@ -108,7 +108,7 @@ private:
     string nombre;
 public:
     examen(string profesorEntrante, string entradaNombre){
-        string nombre = entradaNombre;
+        nombre = entradaNombre;
         puntaje = 0;
         notaObtenida = 0;
         listaSecciones = NULL;
@@ -230,6 +230,7 @@ public:
     void añadirExamen(string profesor, string nombreExamen);
     void borrarExamen(string nombreExamen);
     bool buscarExamen(string nombreExamen);
+    void imprimirExamenes();
 };
 
 void archivador::añadirExamen(string profesor, string nombreExamen){
@@ -255,24 +256,33 @@ bool archivador::buscarExamen(string nombreExamen){
 
 void archivador::borrarExamen(string nombreExamen){
     nodoExamen *nodoActual = listaExamenes;
-    while ((nodoActual!= NULL) && (nodoActual->examenEnNodo->getNombre() != nombreExamen)){
-        nodoActual=nodoActual->siguiente;
+    if (listaExamenes->examenEnNodo->getNombre() == nombreExamen){
+        listaExamenes = nodoActual->siguiente;
+        free(nodoActual);
+        return;
     }
-    if (nodoActual!=NULL){
-        if (listaExamenes->examenEnNodo->getNombre() == nombreExamen){
-            listaExamenes = nodoActual->siguiente;
-            free(nodoActual);
-            return;
-        } else if (nodoActual->siguiente->examenEnNodo->getNombre()== nombreExamen){
+    while(nodoActual!=NULL){
+        if (nodoActual->siguiente->examenEnNodo->getNombre() == nombreExamen){
             nodoExamen *nodoBorrar = nodoActual->siguiente;
             nodoActual->siguiente = nodoActual->siguiente->siguiente;
             free(nodoBorrar);
             return;
         } else {
-            free(nodoActual);
-            return;
+            nodoActual = nodoActual->siguiente;
         }
     }
+    cout<<"No existe ese examen!"<<endl;
+    return;
+}
+
+void archivador::imprimirExamenes(){
+    nodoExamen *tmp = listaExamenes;
+    cout << "IMPRIMIENDO EXAMENES " << endl;
+    while(tmp != NULL){
+        cout << tmp->examenEnNodo->getNombre()<<endl;
+        tmp = tmp->siguiente;
+    }
+    
 }
 
 
@@ -298,6 +308,15 @@ int main(int argc, const char * argv[]) {
     examen1->imprimirInforme();
     
     archivador archivadorprincipal = archivador();
+    archivadorprincipal.añadirExamen("beto", "Quimica1");
+    archivadorprincipal.añadirExamen("beto", "algebra2");
+    archivadorprincipal.añadirExamen("beto", "algebra3");
+    archivadorprincipal.añadirExamen("beto", "algebra4");
+    archivadorprincipal.imprimirExamenes();
+    archivadorprincipal.borrarExamen("Quimica1");
+    archivadorprincipal.imprimirExamenes();
+    
+    
     
     
     
