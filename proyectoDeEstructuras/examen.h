@@ -23,6 +23,15 @@ private:
     string estudiante;
     string profesor;
 public:
+    examen(string profesorEntrante){
+        puntaje = 0;
+        notaObtenida = 0;
+        listaSecciones = NULL;
+        estudiante = "";
+        profesor = profesorEntrante;
+        
+        
+    }
     int calificar();
     void añadirSeccion(bool tipo, string nombre);
     void borrarSeccion(string nombre);
@@ -31,7 +40,7 @@ public:
     void setPuntaje();
     int getPuntaje;
     void setnotaObtenida();
-    int getPuntajeObtenida();
+    int getnotaObtenida();
     void setEstudiante();
     string getEstudiante();
     void setProfesor();
@@ -83,8 +92,6 @@ int examen::calificar(){
     
     return puntaje;
 }
-
-
 
 
 #endif /* examen_h */

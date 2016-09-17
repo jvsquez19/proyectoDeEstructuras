@@ -67,5 +67,10 @@ string seccion::getNombre(){
     return nombre;
 }
 
+void seccion::añadirPregunta(){
+    
+    
+}
+
 
 #endif /* seccion_h */
