@@ -74,6 +74,10 @@ string seccion::getNombre(){
 }
 
 void seccion::añadirPregunta(){
+    if (tipo == true)
+        preguntaRespuestaCorta *nuevaPregunta = new preguntaRespuestaCorta;
+    else
+        
     
     
 }
@@ -154,7 +158,7 @@ void examen::borrarSeccion(string nombre){
         return;
     }
     else{
-    while(actual!= NULL){
+    while(actual->siguiente!= NULL){
         if(actual->siguiente->seccionActual->getNombre() == nombre){
             nodoSeccion *aBorrar = actual->siguiente;
             actual->siguiente = actual->siguiente->siguiente;
@@ -261,7 +265,7 @@ void archivador::borrarExamen(string nombreExamen){
         free(nodoActual);
         return;
     }
-    while(nodoActual!=NULL){
+    while(nodoActual->siguiente!=NULL){
         if (nodoActual->siguiente->examenEnNodo->getNombre() == nombreExamen){
             nodoExamen *nodoBorrar = nodoActual->siguiente;
             nodoActual->siguiente = nodoActual->siguiente->siguiente;
@@ -313,7 +317,7 @@ int main(int argc, const char * argv[]) {
     archivadorprincipal.añadirExamen("beto", "algebra3");
     archivadorprincipal.añadirExamen("beto", "algebra4");
     archivadorprincipal.imprimirExamenes();
-    archivadorprincipal.borrarExamen("Quimica1");
+    archivadorprincipal.borrarExamen("algebra4");
     archivadorprincipal.imprimirExamenes();
     
     
