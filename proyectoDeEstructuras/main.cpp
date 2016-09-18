@@ -66,7 +66,7 @@ public:
     void ImprimirInforme();
     int calificarSeccion();
     void anadirPregunta();
-    void borrarPregunta();
+    void borrarPregunta(int numeroPregunta);
     void setNombre();
     string getNombre();
 
@@ -84,9 +84,9 @@ void seccion::anadirPregunta(){
         nuevoNodo->siguiente = listaPreguntasRespuestaCorta;
         nuevoNodo->preguntaActual = nuevaPregunta;
         listaPreguntasRespuestaCorta = nuevoNodo;
-        
+
     }
-    
+
     else{
         preguntaSeleccionUnica *nuevaPregunta = new preguntaSeleccionUnica;
         nodoPreguntaSeleccionUnica *nuevoNodo = new nodoPreguntaSeleccionUnica;
@@ -97,7 +97,53 @@ void seccion::anadirPregunta(){
 
 }
 
+void seccion::borrarPregunta(int numeroPregunta){// true-> Respuesta Corta || false-> Seleccion Única
+    if (tipo){
+        nodoPreguntaRespuestaCorta *actualCorta = listaPreguntasRespuestaCorta;
+        if (listaPreguntasRespuestaCorta == NULL){
+            cout<<"Esta seccion no contiene preguntas. "<<endl;
+            return;}
+        if(actualCorta->preguntaActual->numero == numeroPregunta){
+            cout << "Borrando..." << actualCorta->preguntaActual->numero<< endl;
+            listaPreguntasRespuestaCorta = actualCorta->siguiente;
+            free(actualCorta);
+            return;
+        }
+    while(actualCorta->siguiente!= NULL){
+        if(actualCorta->siguiente->preguntaActual->numero== numeroPregunta){
+            nodoPreguntaRespuestaCorta *nodoBorrar = actualCorta->siguiente;
+            actualCorta->siguiente = actualCorta->siguiente->siguiente;
+            free(nodoBorrar);
+            return;
+        }
+            actualCorta = actualCorta->siguiente;
+    }
+    return;
+    }
 
+    else {
+        nodoPreguntaSeleccionUnica *actualUnica = listaPreguntasSeleccionUnica;
+        if (listaPreguntasSeleccionUnica == NULL){
+            cout<<"Esta seccion no contiene preguntas. "<<endl;
+            return;}
+        if(actualUnica->preguntaActual->numero == numeroPregunta){
+            cout << "Borrando..." << actualUnica->preguntaActual->numero<< endl;
+            listaPreguntasSeleccionUnica = actualUnica->siguiente;
+            free(actualUnica);
+            return;
+        }
+    while(actualUnica->siguiente!= NULL){
+        if(actualUnica->siguiente->preguntaActual->numero== numeroPregunta){
+            nodoPreguntaSeleccionUnica *nodoBorrar = actualUnica->siguiente;
+            actualUnica->siguiente = actualUnica->siguiente->siguiente;
+            free(nodoBorrar);
+            return;
+        }
+            actualUnica = actualUnica->siguiente;
+    }
+    return;
+    }
+}
 
 
 /*
