@@ -19,13 +19,57 @@ using namespace std;
  *********************************************************************************************************************************************
 
  */
-
+struct nodoRespuesta{
+    string respuesta;
+    nodoRespuesta *siguiente;
+};
 struct preguntaSeleccionUnica{
     int numero;
     string textoPregunta;
     int cantOpciones;
-    int respuestaCorrecta;
+    nodoRespuesta *cabezaRespuesta;
+    void añadirRespuesta(){
+        nodoRespuesta *nuevaRespuesta = new nodoRespuesta;
+        if(cabezaRespuesta == NULL){
+            cabezaRespuesta = nuevaRespuesta;
+            nuevaRespuesta->siguiente = cabezaRespuesta;
+        }
+        else{
+            nodoRespuesta *actual = cabezaRespuesta;
+            
+            while(actual->siguiente!= cabezaRespuesta)
+                actual = actual->siguiente;
+            actual->siguiente = nuevaRespuesta;
+            nuevaRespuesta->siguiente = cabezaRespuesta;
+            cout << "DIGITE EL TEXTO DE LA RESPUESTA" << endl;
+            getline(cin,nuevaRespuesta->respuesta,'n');
+            cout << "AÑADIDO" << endl;
+            
+            
+        }
+        
+    }
+    void borrarRespuesta(){
+        string aBorrar;
+        nodoRespuesta *actual = cabezaRespuesta;
+        cout << "DIGITE LA RESPUESTA A BORRAR" << endl;
+        getline(cin,aBorrar,'n');
+        while(actual->siguiente!=cabezaRespuesta)
+            if(aBorrar==actual->siguiente->respuesta){
+                nodoRespuesta *tmp = actual->siguiente;
+                actual->siguiente = actual->siguiente->siguiente;
+                free(tmp);
+                cout << "BORRADO" << endl;
+                return;
+            }
+        cout << "respuesta no encontrada" << endl;
+        return;
+    }
+    
+
 };
+
+
 
 struct preguntaRespuestaCorta{
     int numero;
@@ -33,6 +77,7 @@ struct preguntaRespuestaCorta{
     string RespuestaCorrecta;
     int PuntajeDePregunta;
     int PuntajeObtenido;
+    
 
 };
 
@@ -80,6 +125,10 @@ string seccion::getNombre(){
 void seccion::anadirPregunta(){
     if (tipo){
         preguntaRespuestaCorta *nuevaPregunta = new preguntaRespuestaCorta;
+        cout << "DIGITE EL TEXTO DE LA PREGUNTA" << endl;
+        getline(cin,nuevaPregunta->textoPregunta,'n');
+        cout << "AHORA DIGITE LA RESPUESTA CORRECTA" << endl;
+        getline(cin, nuevaPregunta->RespuestaCorrecta,'n');
         nodoPreguntaRespuestaCorta *nuevoNodo = new nodoPreguntaRespuestaCorta;
         nuevoNodo->siguiente = listaPreguntasRespuestaCorta;
         nuevoNodo->preguntaActual = nuevaPregunta;
@@ -89,6 +138,11 @@ void seccion::anadirPregunta(){
 
     else{
         preguntaSeleccionUnica *nuevaPregunta = new preguntaSeleccionUnica;
+        cout << "DIGITE EL TEXTO DE LA PREGUNTA" << endl;
+        getline(cin,nuevaPregunta->textoPregunta,'n');
+        cout << "AHORA DIGITE EL NUMERO DE OPCIONES QUE DESEA PARA LA PREGUNTA:" << endl;
+        cin >>nuevaPregunta->cantOpciones;
+    
         nodoPreguntaSeleccionUnica *nuevoNodo = new nodoPreguntaSeleccionUnica;
         nuevoNodo->siguiente = listaPreguntasSeleccionUnica;
         nuevoNodo->preguntaActual = nuevaPregunta;
@@ -378,5 +432,12 @@ int main() {
     archivadorprincipal.imprimirExamenes();
     archivadorprincipal.borrarExamen("algebra4");
     archivadorprincipal.imprimirExamenes();
+    preguntaSeleccionUnica ejemplo = preguntaSeleccionUnica();
+    
+    
+    
+    
     return 0;
+    
+    
 }

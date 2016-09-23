@@ -70,11 +70,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "proyectoDeEstructuras/main.cpp"
-            timestampString = "495830373.477548"
+            timestampString = "495916548.854046"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "300"
-            endingLineNumber = "300">
+            startingLineNumber = "310"
+            endingLineNumber = "310"
+            landmarkName = "class archivador"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -148,13 +150,43 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "proyectoDeEstructuras/main.cpp"
-            timestampString = "495829682.563061"
+            timestampString = "495916548.854046"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "257"
-            endingLineNumber = "257"
-            landmarkName = "archivador::buscarExamen(string nombreExamen)"
+            startingLineNumber = "267"
+            endingLineNumber = "267"
+            landmarkName = "examen::setNombre(string entradaNombre)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "proyectoDeEstructuras/main.cpp"
+            timestampString = "495916548.854046"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
+            landmarkName = "seccion::anadirPregunta()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "proyectoDeEstructuras/main.cpp"
+            timestampString = "495916543.403567"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "20"
+            endingLineNumber = "20">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
