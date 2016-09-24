@@ -42,7 +42,7 @@ struct preguntaSeleccionUnica{
             actual->siguiente = nuevaRespuesta;
             nuevaRespuesta->siguiente = cabezaRespuesta;
             cout << "DIGITE EL TEXTO DE LA RESPUESTA" << endl;
-            getline(cin,nuevaRespuesta->respuesta,'n');
+            getline(cin,nuevaRespuesta->respuesta,'\n');
             cout << "AÑADIDO" << endl;
         }
 
@@ -194,6 +194,20 @@ void seccion::borrarPregunta(int numeroPregunta){// true-> Respuesta Corta || fa
             actualUnica = actualUnica->siguiente;
     }
     return;
+    }
+}
+
+
+void menuSeccion(){
+    bool salir = false;
+    while(not salir){
+        cout <<          "1. Crear examen. \n"
+        "2. Añadir Pregunta. \n"
+        "3. Borrar Pregunta. \n"
+        "4. Cambiar nombre de la sección. \n"
+        "5. Salir \n"
+        "Seleccione una opcion: ";
+        
     }
 }
 
@@ -463,7 +477,9 @@ void menu(archivador *nuevoArchivador){
           "7. Calificar examen. \n"
           "8. Salir \n"
           "Seleccione una opcion: ";
-          cin>>opcion;
+          //cin>>opcion;
+    opcion = cin.get();
+
     switch (opcion){
         case 1:
             cout<<"\n\n\n\nDigite su nombre (profesor): ";
