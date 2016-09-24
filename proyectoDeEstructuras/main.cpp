@@ -13,21 +13,18 @@
 #include <vector>
 #include <functional>
 
-
 using namespace std;
-
-
 
 void split(const string& s, char c,
            vector<string>& v) {
     string::size_type i = 0;
     string::size_type j = s.find(c);
-    
+
     while (j != string::npos) {
         v.push_back(s.substr(i, j-i));
         i = ++j;
         j = s.find(c, j);
-        
+
         if (j == string::npos)
             v.push_back(s.substr(i, s.length()));
     }}
@@ -48,6 +45,7 @@ struct preguntaSeleccionUnica{
     string textoPregunta;
     int cantOpciones;
     nodoRespuesta *cabezaRespuesta;
+
     void anadirRespuesta(){
         nodoRespuesta *nuevaRespuesta = new nodoRespuesta;
         if(cabezaRespuesta == NULL){
@@ -59,11 +57,11 @@ struct preguntaSeleccionUnica{
 
             while(actual->siguiente!= cabezaRespuesta)
                 actual = actual->siguiente;
-            actual->siguiente = nuevaRespuesta;
-            nuevaRespuesta->siguiente = cabezaRespuesta;
-            cout << "DIGITE EL TEXTO DE LA RESPUESTA" << endl;
-            getline(cin,nuevaRespuesta->respuesta,'\n');
-            cout << "AÑADIDO" << endl;
+                actual->siguiente = nuevaRespuesta;
+                nuevaRespuesta->siguiente = cabezaRespuesta;
+                cout << "DIGITE EL TEXTO DE LA RESPUESTA" << endl;
+                //getline(cin,nuevaRespuesta->respuesta,'\n');
+                cout << "AÑADIDO" << endl;
         }
 
     }
@@ -86,9 +84,6 @@ struct preguntaSeleccionUnica{
 
 
 };
-
-
-
 struct preguntaRespuestaCorta{
     int numero;
     string textoPregunta;
@@ -96,23 +91,20 @@ struct preguntaRespuestaCorta{
     string respuestaUsuario;
     int PuntajeDePregunta;
     int PuntajeObtenido;
-    
+
     void calificar(){
         cout << textoPregunta << "\nDigite su respuesta" << endl;
         cin >> respuestaUsuario;
     }
 };
-
 struct nodoPreguntaSeleccionUnica{
     preguntaSeleccionUnica *preguntaActual;
     nodoPreguntaSeleccionUnica *siguiente;
 };
-
 struct nodoPreguntaRespuestaCorta{
     preguntaRespuestaCorta *preguntaActual;
     nodoPreguntaRespuestaCorta *siguiente;
 };
-
 
 class seccion{
 private:
@@ -140,11 +132,9 @@ public:
 
 
 };
-
 string seccion::getNombre(){
     return nombre;
 }
-
 void seccion::anadirPregunta(){
     string pregunta, respuesta;
     int cantidad;
@@ -173,6 +163,7 @@ void seccion::anadirPregunta(){
         cin>>cantidad;
         nuevaPregunta->cantOpciones = cantidad;
 
+
         nodoPreguntaSeleccionUnica *nuevoNodo = new nodoPreguntaSeleccionUnica;
         nuevoNodo->siguiente = listaPreguntasSeleccionUnica;
         nuevoNodo->preguntaActual = nuevaPregunta;
@@ -180,7 +171,6 @@ void seccion::anadirPregunta(){
         return;
     }
 }
-
 void seccion::borrarPregunta(int numeroPregunta){// true-> Respuesta Corta || false-> Seleccion Única
     if (tipo){
         nodoPreguntaRespuestaCorta *actualCorta = listaPreguntasRespuestaCorta;
@@ -228,8 +218,6 @@ void seccion::borrarPregunta(int numeroPregunta){// true-> Respuesta Corta || fa
     return;
     }
 }
-
-
 void seccion::menuseccion(){
     char opcion;int num;
     while(true){
@@ -261,8 +249,6 @@ void seccion::menuseccion(){
         }
     }
 }
-
-
 /*
  *********************************************************************************************************************************************
 
@@ -273,8 +259,6 @@ void seccion::menuseccion(){
  *********************************************************************************************************************************************
 
  */
-
-
 struct nodoSeccion{
     seccion *seccionActual;
     nodoSeccion *siguiente;
@@ -316,11 +300,9 @@ public:
     nodoSeccion *getSeccion();
 
 };
-
 nodoSeccion *examen::getSeccion(){
     return listaSecciones;
 }
-
 void examen::anadirSeccion(bool tipo, string nombre){
     seccion *nuevaSeccion = new seccion(tipo, nombre);
     nodoSeccion *nuevoNodo = new nodoSeccion();
@@ -330,7 +312,6 @@ void examen::anadirSeccion(bool tipo, string nombre){
     cout<<"Seccion agregada con exito.\n\n\n\n";
     return;
 };
-
 void examen::borrarSeccion(string nombre){
     nodoSeccion *actual = listaSecciones;
     if (listaSecciones == NULL){
@@ -356,7 +337,6 @@ void examen::borrarSeccion(string nombre){
     return;
     }
 }
-
 int examen::calificarExamen(){
     int puntaje;
     nodoSeccion *actual = listaSecciones;
@@ -367,25 +347,20 @@ int examen::calificarExamen(){
 
     return puntaje;
 }
-
 void examen::setProfesor(string profeNuevo){
     profesor = profeNuevo;
 
 }
-
 string examen::getProfesor(){
     return profesor;
 }
-
 void examen::setNombre(string entradaNombre){
     nombre = entradaNombre;
 
 }
-
 string examen::getNombre(){
     return nombre;
 }
-
 void examen::imprimirInforme(){
     nodoSeccion *tmp = listaSecciones;
     while(tmp != NULL){
@@ -393,8 +368,6 @@ void examen::imprimirInforme(){
         tmp = tmp->siguiente;
     }
 }
-
-
 /*
 *********************************************************************************************************************************************
 CLASS ARCHIVADOR
@@ -404,7 +377,6 @@ CLASS ARCHIVADOR
 ******************************************************************************************** ***************************** ******************
 
 */
-
 struct nodoExamen{
     examen *examenEnNodo;
     nodoExamen *siguiente;
@@ -423,7 +395,6 @@ public:
     void llenarExamen(nodoExamen *nodoExamenModificar);
     int getCantidadExamenes();
 };
-
 void archivador::anadirExamen(string profesor, string nombreExamen){
     nodoExamen *nuevoNodo = new nodoExamen();
     examen *nuevoExamen = new examen(profesor,nombreExamen); //se crea examen con el constructor de examen
@@ -435,7 +406,6 @@ void archivador::anadirExamen(string profesor, string nombreExamen){
     cantidadExamenes++;
     cout<<"Agregado con exito. \n\n\n\n";
 }
-
  nodoExamen *archivador::buscarExamen(string nombreExamen){
     nodoExamen *nodoActual = listaExamenes;
     while (nodoActual!=NULL){
@@ -445,7 +415,6 @@ void archivador::anadirExamen(string profesor, string nombreExamen){
     }
     return NULL ;
 }
-
 void archivador::borrarExamen(string nombreExamen){
     nodoExamen *nodoActual = listaExamenes;
     if (listaExamenes == NULL){
@@ -471,7 +440,6 @@ void archivador::borrarExamen(string nombreExamen){
     cout<<"No existe ese examen!"<<endl;
     return;
 }
-
 void archivador::imprimirExamenes(){
     nodoExamen *tmp = listaExamenes;
     cout << "\n\n\n\nIMPRIMIENDO EXAMENES " << endl;
@@ -481,7 +449,6 @@ void archivador::imprimirExamenes(){
     }
     cout<<"\n\n\n\n";
 }
-
 void archivador::llenarExamen(nodoExamen *nodoExamenModificar){
     if (nodoExamenModificar == NULL){
         cout<<"No se encontro el examen requerido. \n\n\n\n";
@@ -511,18 +478,15 @@ void archivador::llenarExamen(nodoExamen *nodoExamenModificar){
             }
     }
 }
-
 int archivador::getCantidadExamenes(){
     return cantidadExamenes;
 };
-
 /*
  *********************************************************************************************************************************************
  MAIN
  parte principal donde se ejecuta el codigo
  *********************************************************************************************************************************************
  */
-
 void menu(archivador *nuevoArchivador){
     char opcion;
     string profesor,nombreExamen,examenModificar,examenBorrar,nombreAlumno,nombreExamenAlumno;
