@@ -28,7 +28,7 @@ struct preguntaSeleccionUnica{
     string textoPregunta;
     int cantOpciones;
     nodoRespuesta *cabezaRespuesta;
-    void añadirRespuesta(){
+    void anadirRespuesta(){
         nodoRespuesta *nuevaRespuesta = new nodoRespuesta;
         if(cabezaRespuesta == NULL){
             cabezaRespuesta = nuevaRespuesta;
@@ -36,7 +36,7 @@ struct preguntaSeleccionUnica{
         }
         else{
             nodoRespuesta *actual = cabezaRespuesta;
-            
+
             while(actual->siguiente!= cabezaRespuesta)
                 actual = actual->siguiente;
             actual->siguiente = nuevaRespuesta;
@@ -44,10 +44,8 @@ struct preguntaSeleccionUnica{
             cout << "DIGITE EL TEXTO DE LA RESPUESTA" << endl;
             getline(cin,nuevaRespuesta->respuesta,'n');
             cout << "AÑADIDO" << endl;
-            
-            
         }
-        
+
     }
     void borrarRespuesta(){
         string aBorrar;
@@ -65,7 +63,7 @@ struct preguntaSeleccionUnica{
         cout << "respuesta no encontrada" << endl;
         return;
     }
-    
+
 
 };
 
@@ -77,7 +75,7 @@ struct preguntaRespuestaCorta{
     string RespuestaCorrecta;
     int PuntajeDePregunta;
     int PuntajeObtenido;
-    
+
 
 };
 
@@ -142,7 +140,7 @@ void seccion::anadirPregunta(){
         getline(cin,nuevaPregunta->textoPregunta,'n');
         cout << "AHORA DIGITE EL NUMERO DE OPCIONES QUE DESEA PARA LA PREGUNTA:" << endl;
         cin >>nuevaPregunta->cantOpciones;
-    
+
         nodoPreguntaSeleccionUnica *nuevoNodo = new nodoPreguntaSeleccionUnica;
         nuevoNodo->siguiente = listaPreguntasSeleccionUnica;
         nuevoNodo->preguntaActual = nuevaPregunta;
@@ -233,9 +231,8 @@ public:
         listaSecciones = NULL;
         estudiante = "";
         profesor = profesorEntrante;
-
-
     }
+
     int calificarExamen();
     void anadirSeccion(bool tipo, string nombre);
     void borrarSeccion(string nombre);
@@ -362,6 +359,7 @@ void archivador::anadirExamen(string profesor, string nombreExamen){
     nuevoNodo->siguiente = listaExamenes;
     listaExamenes = nuevoNodo;
     cantidadExamenes++;
+    cout<<"Agregado con exito. \n\n\n\n";
 }
 
  nodoExamen *archivador::buscarExamen(string nombreExamen){
@@ -377,12 +375,13 @@ void archivador::anadirExamen(string profesor, string nombreExamen){
 void archivador::borrarExamen(string nombreExamen){
     nodoExamen *nodoActual = listaExamenes;
     if (listaExamenes == NULL){
-        cout<<"No hay examenes. "<<endl;
+        cout<<"No hay examenes. \n\n\n\n";
         return;
     }
     if (listaExamenes->examenEnNodo->getNombre() == nombreExamen){
         listaExamenes = nodoActual->siguiente;
         free(nodoActual);
+        cout<<"Borrado con exito. \n\n\n\n";
         return;
     }
     while(nodoActual->siguiente!=NULL){
@@ -390,6 +389,7 @@ void archivador::borrarExamen(string nombreExamen){
             nodoExamen *nodoBorrar = nodoActual->siguiente;
             nodoActual->siguiente = nodoActual->siguiente->siguiente;
             free(nodoBorrar);
+            cout<<"Borrado con exito. \n\n\n\n";
             return;
         }
         nodoActual = nodoActual->siguiente;
@@ -400,12 +400,12 @@ void archivador::borrarExamen(string nombreExamen){
 
 void archivador::imprimirExamenes(){
     nodoExamen *tmp = listaExamenes;
-    cout << "IMPRIMIENDO EXAMENES " << endl;
+    cout << "\n\n\n\nIMPRIMIENDO EXAMENES " << endl;
     while(tmp != NULL){
         cout << tmp->examenEnNodo->getNombre()<<endl;
         tmp = tmp->siguiente;
     }
-
+    cout<<"\n\n\n\n";
 }
 /*
  *********************************************************************************************************************************************
@@ -413,31 +413,72 @@ void archivador::imprimirExamenes(){
  parte principal donde se ejecuta el codigo
  *********************************************************************************************************************************************
  */
-int main() {
-    examen *examen1 = new examen("julio" , "examen1");
-    examen1->anadirSeccion(true, "RespuestaCorta1");
-    examen1->anadirSeccion(true, "RespuestaCorta2");
-    examen1->anadirSeccion(false, "Selecion Unica");
-    cout << "PROBANDO AÑADIR SECCIONES" << endl;
-    examen1->imprimirInforme();
-    examen1->borrarSeccion("RespuestaCorta1");
-    cout << "PROBANDO BORRAR SECCIONES" << endl;
-    examen1->imprimirInforme();
 
-    archivador archivadorprincipal = archivador();
-    archivadorprincipal.anadirExamen("beto", "Quimica1");
-    archivadorprincipal.anadirExamen("beto", "algebra2");
-    archivadorprincipal.anadirExamen("beto", "algebra3");
-    archivadorprincipal.anadirExamen("beto", "algebra4");
-    archivadorprincipal.imprimirExamenes();
-    archivadorprincipal.borrarExamen("algebra4");
-    archivadorprincipal.imprimirExamenes();
-    preguntaSeleccionUnica ejemplo = preguntaSeleccionUnica();
-    
-    
-    
-    
+void menu(archivador *nuevoArchivador){
+    int opcion;
+    string profesor,nombreExamen,examenModificar,examenBorrar,nombreAlumno,nombreExamenAlumno;
+    cout<<"BIENVENIDO! \n"
+          "1. Crear examen. \n"
+          "2. Modificar examen. \n"
+          "3. Borrar examen. \n"
+          "4. Realizar examen. \n"
+          "5. Ver todos los examenes (nombre examen). \n"
+          "6. Calificar examen. \n"
+          "7. Salir \n"
+          "Seleccione una opcion: ";
+          cin>>opcion;
+    switch (opcion){
+        case 1:
+            cout<<"\n\n\n\nDigite su nombre (profesor): ";
+            cin>>profesor;
+            cout<<"Digite el nombre del examen a crear: ";
+            cin>>nombreExamen;
+            nuevoArchivador->anadirExamen(profesor,nombreExamen);
+            return;
+
+        case 2:
+            cout<<"\n\n\n\nDigite el nombre del examen para ser modificado: ";
+            cin>>examenModificar;
+            nodoExamen *examenBuscar;
+            examenBuscar = nuevoArchivador->buscarExamen(examenModificar);
+            //falta hacer metodo modificar en archivador
+            return;
+
+        case 3:
+            cout<<"\n\n\n\nDigite el nombre del examen para ser borrado: ";
+            cin>>examenBorrar;
+            nuevoArchivador->borrarExamen(examenBorrar);
+            return;
+
+        case 4:
+            cout<<"\n\n\n\nEscriba el nombre del examen que quiere realizar (alumno): ";
+            cin>>nombreExamenAlumno;
+            cout<<"Escriba su nombre para realizar el examen: ";
+            cin>>nombreAlumno;
+            nodoExamen *examenAlumno;
+            //examenAlumno = falta crear metodo para realizar examen en archivador(nombreAlumno)
+            return;
+        case 5:
+            nuevoArchivador->imprimirExamenes();
+            return;
+
+        case 6:
+            //metodo de calificacion de examenes
+            return;
+
+        case 7:
+            exit(0);
+
+        default:
+            cout<<"\n\n\n\nEse digito es incorrecto. Intente de nuevo\n\n\n\n";
+            return;}
+
+}
+
+
+int main() {
+    archivador *nuevoArchivador = new archivador();
+    while(true)
+        menu(nuevoArchivador);
     return 0;
-    
-    
 }
