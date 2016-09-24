@@ -10,7 +10,27 @@
 #include  <limits.h>
 #include <string>
 #include <stdlib.h>
+#include <vector>
+#include <functional>
+
+
 using namespace std;
+
+
+
+void split(const string& s, char c,
+           vector<string>& v) {
+    string::size_type i = 0;
+    string::size_type j = s.find(c);
+    
+    while (j != string::npos) {
+        v.push_back(s.substr(i, j-i));
+        i = ++j;
+        j = s.find(c, j);
+        
+        if (j == string::npos)
+            v.push_back(s.substr(i, s.length()));
+    }}
 /*
 
  SECCION CLASS
@@ -76,9 +96,15 @@ struct preguntaRespuestaCorta{
     string respuestaUsuario;
     int PuntajeDePregunta;
     int PuntajeObtenido;
+    
     void calificar(){
         cout << textoPregunta << "\nDigite su respuesta" << endl;
         cin >> respuestaUsuario;
+        vector<string> respuestaLista;
+        vector<string> correctaLista;
+        split(respuestaUsuario, ' ', respuestaLista);
+        split(respuestaUsuario, ' ', respuestaLista);
+        
         
         
     }
