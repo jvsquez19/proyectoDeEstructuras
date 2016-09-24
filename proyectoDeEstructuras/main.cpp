@@ -73,10 +73,15 @@ struct preguntaRespuestaCorta{
     int numero;
     string textoPregunta;
     string RespuestaCorrecta;
+    string respuestaUsuario;
     int PuntajeDePregunta;
     int PuntajeObtenido;
-
-
+    void calificar(){
+        cout << textoPregunta << "\nDigite su respuesta" << endl;
+        cin >> respuestaUsuario;
+        
+        
+    }
 };
 
 struct nodoPreguntaSeleccionUnica{
@@ -112,6 +117,7 @@ public:
     void borrarPregunta(int numeroPregunta);
     void setNombre();
     string getNombre();
+    void menuseccion();
 
 
 };
@@ -198,15 +204,32 @@ void seccion::borrarPregunta(int numeroPregunta){// true-> Respuesta Corta || fa
 }
 
 
-void menuSeccion(){
-    bool salir = false;
-    while(not salir){
-        cout <<          "1. Crear examen. \n"
-        "2. Añadir Pregunta. \n"
-        "3. Borrar Pregunta. \n"
-        "4. Cambiar nombre de la sección. \n"
-        "5. Salir \n"
+void seccion::menuseccion(){
+    while(true){
+        cout <<"\n\n\n\n"
+        "1. Añadir Pregunta. \n"
+        "2. Borrar Pregunta. \n"
+        "3. Cambiar nombre de la sección. \n"
+        "4. Salir \n"
         "Seleccione una opcion: ";
+        int opcion;
+        opcion = cin.get();
+        switch(opcion){
+            case 1:
+                anadirPregunta();
+            case 2:
+                cout << "\n\nDigite el nuumero de la pregunta a borrar: ";
+                int num;
+                num = cin.get();
+                borrarPregunta(num);
+            case 3:
+                cout << "Digite el nuevo nombre para la sección" << endl;
+                cin >> nombre;
+            case 4:
+                break;
+            default:
+                cout<<"\n\n\n\nERROR FATAL!!!!! ENTRADA INVALIDA";
+        }
         
     }
 }
