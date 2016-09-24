@@ -350,7 +350,8 @@ public:
     void borrarExamen(string nombreExamen);
     nodoExamen *buscarExamen(string nombreExamen);
     void imprimirExamenes();
-    void llenarExamen(string examenModificar);
+    void llenarExamen(nodoExamen *nodoExamenModificar);
+    int getCantidadExamenes();
 };
 
 void archivador::anadirExamen(string profesor, string nombreExamen){
@@ -411,30 +412,37 @@ void archivador::imprimirExamenes(){
     cout<<"\n\n\n\n";
 }
 
-void archivador::llenarExamen(string examenModificar){
-    nodoExamen *nodoExamenModificar = buscarExamen(examenModificar);
+void archivador::llenarExamen(nodoExamen *nodoExamenModificar){
     if (nodoExamenModificar == NULL){
         cout<<"No se encontro el examen requerido. \n\n\n\n";
         return;
     }
     int opcion;string nombreSeccion;
-    cout<<"Escriba el nombre de la seccion para agregar: ";cin>>nombreSeccion;
-    cout<<"\n\n\n\n1. Seccion Seleccion unica. \n"
+    cout<<"\n\n\n\nOPCIONES LLENAR EXAMEN"
+          "1. Seccion Seleccion unica. \n"
           "2. Seccion Respuesta Corta. \n"
           "Cualquier otra tecla para cancelar"
           "Que seccion desea agregar: ";cin>>opcion;
           switch(opcion){
             case 1:
+                cout<<"Escriba el nombre de la seccion para agregar: ";cin>>nombreSeccion;
                 nodoExamenModificar->examenEnNodo->anadirSeccion(false,nombreSeccion);
+                //nodoExamenModificar->examenEnNodo->listaSecciones->seccionActual->///debe acceder a un menu para agregar, modificar y borrar preguntas
                 return;
             case 2:
+                cout<<"Escriba el nombre de la seccion para agregar: ";cin>>nombreSeccion;
                 nodoExamenModificar->examenEnNodo->anadirSeccion(true,nombreSeccion);
                 return;
             default:
                 cout<<"\n\n\n\n";
                 return;
-          }
+            }
 }
+
+int archivador::getCantidadExamenes(){
+    return cantidadExamenes;
+};
+
 /*
  *********************************************************************************************************************************************
  MAIN
@@ -451,8 +459,9 @@ void menu(archivador *nuevoArchivador){
           "3. Borrar examen. \n"
           "4. Realizar examen. \n"
           "5. Ver todos los examenes (nombre examen). \n"
-          "6. Calificar examen. \n"
-          "7. Salir \n"
+          "6. Numero de examenes creados \n"
+          "7. Calificar examen. \n"
+          "8. Salir \n"
           "Seleccione una opcion: ";
           cin>>opcion;
     switch (opcion){
@@ -467,7 +476,9 @@ void menu(archivador *nuevoArchivador){
         case 2:
             cout<<"\n\n\n\nDigite el nombre del examen para ser llenado: ";
             cin>>examenModificar;
-            nuevoArchivador->llenarExamen(examenModificar);
+            nodoExamen *nodoExamenModificar;
+            nodoExamenModificar = nuevoArchivador->buscarExamen(examenModificar);
+            nuevoArchivador->llenarExamen(nodoExamenModificar);
             return;
 
         case 3:
@@ -488,18 +499,20 @@ void menu(archivador *nuevoArchivador){
         case 5:
             nuevoArchivador->imprimirExamenes();
             return;
-
         case 6:
-            //metodo de calificacion de examenes
+            cout<<"\n\n\n\nNumero de examenes: "<<nuevoArchivador->getCantidadExamenes()<<"\n\n\n\n";
             return;
 
         case 7:
+            //metodo de calificacion de examenes
+            return;
+
+        case 8:
             exit(0);
 
         default:
             cout<<"\n\n\n\nEse digito es incorrecto. Intente de nuevo\n\n\n\n";
             return;}
-
 }
 
 
