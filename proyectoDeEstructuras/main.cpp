@@ -257,6 +257,8 @@ void examen::anadirSeccion(bool tipo, string nombre){
     nuevoNodo->seccionActual = nuevaSeccion;
     nuevoNodo->siguiente = listaSecciones;
     listaSecciones = nuevoNodo;
+    cout<<"Seccion agregada con exito.\n\n\n\n";
+    return;
 };
 
 void examen::borrarSeccion(string nombre){
@@ -348,6 +350,7 @@ public:
     void borrarExamen(string nombreExamen);
     nodoExamen *buscarExamen(string nombreExamen);
     void imprimirExamenes();
+    void llenarExamen(string examenModificar);
 };
 
 void archivador::anadirExamen(string profesor, string nombreExamen){
@@ -407,6 +410,31 @@ void archivador::imprimirExamenes(){
     }
     cout<<"\n\n\n\n";
 }
+
+void archivador::llenarExamen(string examenModificar){
+    nodoExamen *nodoExamenModificar = buscarExamen(examenModificar);
+    if (nodoExamenModificar == NULL){
+        cout<<"No se encontro el examen requerido. \n\n\n\n";
+        return;
+    }
+    int opcion;string nombreSeccion;
+    cout<<"Escriba el nombre de la seccion para agregar: ";cin>>nombreSeccion;
+    cout<<"\n\n\n\n1. Seccion Seleccion unica. \n"
+          "2. Seccion Respuesta Corta. \n"
+          "Cualquier otra tecla para cancelar"
+          "Que seccion desea agregar: ";cin>>opcion;
+          switch(opcion){
+            case 1:
+                nodoExamenModificar->examenEnNodo->anadirSeccion(false,nombreSeccion);
+                return;
+            case 2:
+                nodoExamenModificar->examenEnNodo->anadirSeccion(true,nombreSeccion);
+                return;
+            default:
+                cout<<"\n\n\n\n";
+                return;
+          }
+}
 /*
  *********************************************************************************************************************************************
  MAIN
@@ -419,7 +447,7 @@ void menu(archivador *nuevoArchivador){
     string profesor,nombreExamen,examenModificar,examenBorrar,nombreAlumno,nombreExamenAlumno;
     cout<<"BIENVENIDO! \n"
           "1. Crear examen. \n"
-          "2. Modificar examen. \n"
+          "2. Llenar examen. \n"
           "3. Borrar examen. \n"
           "4. Realizar examen. \n"
           "5. Ver todos los examenes (nombre examen). \n"
@@ -437,11 +465,9 @@ void menu(archivador *nuevoArchivador){
             return;
 
         case 2:
-            cout<<"\n\n\n\nDigite el nombre del examen para ser modificado: ";
+            cout<<"\n\n\n\nDigite el nombre del examen para ser llenado: ";
             cin>>examenModificar;
-            nodoExamen *examenBuscar;
-            examenBuscar = nuevoArchivador->buscarExamen(examenModificar);
-            //falta hacer metodo modificar en archivador
+            nuevoArchivador->llenarExamen(examenModificar);
             return;
 
         case 3:
@@ -455,7 +481,8 @@ void menu(archivador *nuevoArchivador){
             cin>>nombreExamenAlumno;
             cout<<"Escriba su nombre para realizar el examen: ";
             cin>>nombreAlumno;
-            nodoExamen *examenAlumno;
+            ///nodoExamen *examenAlumno;
+            ///examenAlumno = nuevoArchivador->buscarExamen(nombreExamenAlumno);
             //examenAlumno = falta crear metodo para realizar examen en archivador(nombreAlumno)
             return;
         case 5:
