@@ -85,6 +85,25 @@ struct preguntaSeleccionUnica{
 
 };
 struct preguntaRespuestaCorta{
+    void calificar(){
+        string respuestaUsuario;
+        int aciertos = 0;
+        cout << textoPregunta << endl;
+        getline(cin,respuestaUsuario,'\n');
+        __SIZE_TYPE__ tamaño1 = RespuestaCorrecta.length();
+        __SIZE_TYPE__ tamaño2= respuestaUsuario.length();
+        int tmp = 0;
+        while((tmp < tamaño1)&&(tmp < tamaño2)){
+            if (RespuestaCorrecta[tmp]==respuestaUsuario[tmp]){
+                aciertos++;
+                cout << RespuestaCorrecta[tmp];
+                tmp++;
+            }
+            else
+                tmp++;
+        }
+        PuntajeObtenido = (aciertos * PuntajeDePregunta / tamaño1);
+    }
     int numero;
     string textoPregunta;
     string RespuestaCorrecta;
@@ -92,10 +111,6 @@ struct preguntaRespuestaCorta{
     int PuntajeDePregunta;
     int PuntajeObtenido;
 
-    void calificar(){
-        cout << textoPregunta << "\nDigite su respuesta" << endl;
-        cin >> respuestaUsuario;
-    }
 };
 struct nodoPreguntaSeleccionUnica{
     preguntaSeleccionUnica *preguntaActual;
