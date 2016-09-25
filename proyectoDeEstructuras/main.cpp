@@ -42,34 +42,46 @@ struct nodoRespuesta{
 };
 struct preguntaSeleccionUnica{
     int numero;
-    string textoPregunta;
+    string textoPregunta,correcta,incorrecta;
     int cantOpciones;
     nodoRespuesta *cabezaRespuesta;
 
     void anadirRespuesta(){
-        nodoRespuesta *nuevaRespuesta = new nodoRespuesta;
-        if(cabezaRespuesta == NULL){
+        cout<<"Digite la respuesta correcta: ";
+        cin>>correcta;
+        while(cantOpciones!=0){
+        nodoRespuesta *nuevaRespuesta = new nodoRespuesta();
+        if (cabezaRespuesta == NULL){
+            nuevaRespuesta->respuesta = correcta;
+            nuevaRespuesta->siguiente = nuevaRespuesta;
             cabezaRespuesta = nuevaRespuesta;
+            cantOpciones--;}
+        else {
+            cout<<"Digite la respuesta incorrecta: ";
+            cin>>incorrecta;
+            nodoRespuesta *actualRespuesta = cabezaRespuesta;
+            do {
+                actualRespuesta = actualRespuesta->siguiente;
+            }while(actualRespuesta->siguiente != cabezaRespuesta);
+            nuevaRespuesta->respuesta = incorrecta;
+            actualRespuesta->siguiente = nuevaRespuesta;
             nuevaRespuesta->siguiente = cabezaRespuesta;
+            cantOpciones--;
+            }
         }
-        else{
-            nodoRespuesta *actual = cabezaRespuesta;
-
-            while(actual->siguiente!= cabezaRespuesta)
-                actual = actual->siguiente;
-                actual->siguiente = nuevaRespuesta;
-                nuevaRespuesta->siguiente = cabezaRespuesta;
-                cout << "DIGITE EL TEXTO DE LA RESPUESTA" << endl;
-                //getline(cin,nuevaRespuesta->respuesta,'\n');
-                cout << "AÑADIDO" << endl;
-        }
-
+        nodoRespuesta *tmp = cabezaRespuesta;
+        cout<<"PRUEBA RESPUESTAS: ";
+        do {
+            cout<<tmp->respuesta<<", ";
+            tmp=tmp->siguiente;
+        } while(tmp!=cabezaRespuesta);
     }
+
     void borrarRespuesta(){
         string aBorrar;
         nodoRespuesta *actual = cabezaRespuesta;
         cout << "DIGITE LA RESPUESTA A BORRAR" << endl;
-        getline(cin,aBorrar,'n');
+        ///getline(cin,aBorrar,'n');
         while(actual->siguiente!=cabezaRespuesta)
             if(aBorrar==actual->siguiente->respuesta){
                 nodoRespuesta *tmp = actual->siguiente;
@@ -80,10 +92,14 @@ struct preguntaSeleccionUnica{
             }
         cout << "respuesta no encontrada" << endl;
         return;
+        }
+    void calificar(){
+        string nombre;
+        cout<<"Escoja una de las opciones";
+        cin>>nombre;
     }
-
-
 };
+
 struct preguntaRespuestaCorta{
     void calificar(){
         string respuestaUsuario;
@@ -112,6 +128,7 @@ struct preguntaRespuestaCorta{
     int PuntajeObtenido;
 
 };
+
 struct nodoPreguntaSeleccionUnica{
     preguntaSeleccionUnica *preguntaActual;
     nodoPreguntaSeleccionUnica *siguiente;
@@ -168,21 +185,21 @@ void seccion::anadirPregunta(){
         listaPreguntasRespuestaCorta = nuevoNodo;
         return;
     }
-
-    else{
+    else{//pregunta en seleccion unica
         preguntaSeleccionUnica *nuevaPregunta = new preguntaSeleccionUnica;
-        cout << "DIGITE EL TEXTO DE LA PREGUNTA" << endl;
+        cout << "DIGITE EL TEXTO DE LA PREGUNTA: ";
         cin>>pregunta;
         nuevaPregunta->textoPregunta = pregunta;
-        cout << "AHORA DIGITE EL NUMERO DE OPCIONES QUE DESEA PARA LA PREGUNTA:" << endl;
+        cout << "AHORA DIGITE EL NUMERO DE OPCIONES QUE DESEA PARA LA PREGUNTA: ";
         cin>>cantidad;
         nuevaPregunta->cantOpciones = cantidad;
-
 
         nodoPreguntaSeleccionUnica *nuevoNodo = new nodoPreguntaSeleccionUnica;
         nuevoNodo->siguiente = listaPreguntasSeleccionUnica;
         nuevoNodo->preguntaActual = nuevaPregunta;
         listaPreguntasSeleccionUnica = nuevoNodo;
+
+        nuevaPregunta->anadirRespuesta();
         return;
     }
 }
@@ -237,9 +254,9 @@ void seccion::menuseccion(){
     char opcion;int num;
     while(true){
         cout <<"\n\n\n\n"
-        "1. Añadir pregunta. \n"
+        "1. Agregar pregunta. \n"
         "2. Borrar pregunta. \n"
-        "3. Cambiar nombre de la sección. \n"
+        "3. Cambiar nombre de la seccion. \n"
         "4. Salir \n"
         "Seleccione una opcion: ";
         cin>>opcion;
@@ -555,10 +572,6 @@ void menu(archivador *nuevoArchivador){
             return;
 
         case '7':
-            //metodo de calificacion de examenes
-            return;
-
-        case '8':
             exit(0);
 
         default:
