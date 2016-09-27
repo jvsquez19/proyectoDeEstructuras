@@ -109,10 +109,10 @@ struct preguntaRespuestaCorta{
         int aciertos = 0;
         cout << textoPregunta << endl;
         getline(cin,respuestaUsuario,'\n');
-        int tamaño1 = RespuestaCorrecta.length();
-        int tamaño2= respuestaUsuario.length();
+        int longitud1 = RespuestaCorrecta.length();
+        int longitud2= respuestaUsuario.length();
         int tmp = 0;
-        while((tmp < tamaño1)&&(tmp < tamaño2)){
+        while((tmp < longitud1)&&(tmp < longitud2)){
             if (RespuestaCorrecta[tmp]==respuestaUsuario[tmp]){
                 aciertos++;
                 cout << RespuestaCorrecta[tmp];
@@ -121,7 +121,7 @@ struct preguntaRespuestaCorta{
             else
                 tmp++;
         }
-        PuntajeObtenido = (aciertos * PuntajeDePregunta / tamaño1);
+        PuntajeObtenido = (aciertos * PuntajeDePregunta / longitud1);
     }
     int numero;
     string textoPregunta;
