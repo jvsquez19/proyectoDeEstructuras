@@ -75,8 +75,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "327"
             endingLineNumber = "327"
-            landmarkName = "examen::borrarSeccion(string nombre)"
-            landmarkType = "7">
+            landmarkName = "class examen"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -154,9 +154,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "284"
-            endingLineNumber = "284"
-            landmarkName = "class examen"
-            landmarkType = "3">
+            endingLineNumber = "284">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -203,7 +201,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "456"
             endingLineNumber = "456"
-            landmarkName = "archivador::llenarExamen(nodoExamen *nodoExamenModificar)"
+            landmarkName = "archivador::borrarExamen(string nombreExamen)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

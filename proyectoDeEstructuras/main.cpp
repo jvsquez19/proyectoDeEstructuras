@@ -106,8 +106,8 @@ struct preguntaRespuestaCorta{
         int aciertos = 0;
         cout << textoPregunta << endl;
         getline(cin,respuestaUsuario,'\n');
-        __SIZE_TYPE__ tamaño1 = RespuestaCorrecta.length();
-        __SIZE_TYPE__ tamaño2= respuestaUsuario.length();
+        int tamaño1 = RespuestaCorrecta.length();
+        int tamaño2= respuestaUsuario.length();
         int tmp = 0;
         while((tmp < tamaño1)&&(tmp < tamaño2)){
             if (RespuestaCorrecta[tmp]==respuestaUsuario[tmp]){
