@@ -179,7 +179,7 @@ void seccion::anadirPregunta(){
         getline(cin,pregunta,'\n');
         nuevaPregunta->textoPregunta = pregunta;
         cout << "AHORA DIGITE LA RESPUESTA CORRECTA" << endl;
-        getline(cin,respuesta,'\n');
+        //1getline(cin,respuesta,'\n');
         getline(cin,respuesta,'\n');
         nuevaPregunta->RespuestaCorrecta = respuesta;
 
