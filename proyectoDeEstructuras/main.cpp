@@ -15,19 +15,6 @@
 
 using namespace std;
 
-void split(const string& s, char c,
-           vector<string>& v) {
-    string::size_type i = 0;
-    string::size_type j = s.find(c);
-
-    while (j != string::npos) {
-        v.push_back(s.substr(i, j-i));
-        i = ++j;
-        j = s.find(c, j);
-
-        if (j == string::npos)
-            v.push_back(s.substr(i, s.length()));
-    }}
 /*
 
  SECCION CLASS
@@ -199,8 +186,10 @@ void seccion::anadirPregunta(){
             nodoPreguntaRespuestaCorta *actual = listaPreguntasRespuestaCorta;
             nodoPreguntaRespuestaCorta *nuevoNodo = new nodoPreguntaRespuestaCorta;
             nuevoNodo->preguntaActual = nuevaPregunta;
-            if(actual == NULL)
+        if(actual == NULL){
                 listaPreguntasRespuestaCorta = nuevoNodo;
+                return;
+        }
             while(actual != NULL){ // Recorre la lista
                 if(actual->preguntaActual->PuntajeObtenido > nuevaPregunta->PuntajeDePregunta) // si es menor avanza al siguiente
                     actual = actual->siguiente;
@@ -231,17 +220,19 @@ void seccion::anadirPregunta(){
         cout<< "POR ULTIMO, DIGITE EL VALOR DE LA PREGUNTA: ";
         cin>>valor;
         nuevaPregunta->valorPregunta = valor;
-        if(valor > listaPreguntasSeleccionUnica->preguntaActual->valorPregunta){
         nodoPreguntaSeleccionUnica *nuevoNodo = new nodoPreguntaSeleccionUnica;
-            
-            
+            nuevaPregunta->anadirRespuesta();
+        
             // Aqui se inserta en la lista para luego agregar las respuestas.
             
             
-            nodoPreguntaSeleccionUnica *actual = listaPreguntasSeleccionUnica;
+        
             nuevoNodo->preguntaActual = nuevaPregunta;
-            if(actual == NULL)
+        if(listaPreguntasSeleccionUnica == NULL){
                 listaPreguntasSeleccionUnica = nuevoNodo;
+            return;
+        }
+            nodoPreguntaSeleccionUnica *actual = listaPreguntasSeleccionUnica;
             while(actual != NULL){ // Recorre la lista
                 if(actual->preguntaActual->valorPregunta > nuevaPregunta->valorPregunta) // si es menor avanza al siguiente
                     actual = actual->siguiente;
@@ -250,14 +241,11 @@ void seccion::anadirPregunta(){
                     nuevoNodo->siguiente = actual;               // si es mayor se inserta antes de acutal.
                     nuevoNodo->anterior = actual->anterior;
                     actual->anterior = nuevoNodo;
-                    break;
-                }
+                    return;
+                
                 }
                 
             }
-
-        nuevaPregunta->anadirRespuesta();
-        return;
     }
 }
     
