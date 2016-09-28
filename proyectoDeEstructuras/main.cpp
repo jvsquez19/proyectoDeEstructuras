@@ -242,7 +242,6 @@ void seccion::anadirPregunta(){
         cout<< "POR ULTIMO, DIGITE EL VALOR DE LA PREGUNTA: ";
         cin>>valor;
         nuevaPregunta->valorPregunta = valor;
-        if(valor > listaPreguntasSeleccionUnica->preguntaActual->valorPregunta){
         nodoPreguntaSeleccionUnica *nuevoNodo = new nodoPreguntaSeleccionUnica;
 
 
@@ -253,6 +252,9 @@ void seccion::anadirPregunta(){
             nuevoNodo->preguntaActual = nuevaPregunta;
             if(actual == NULL)
                 listaPreguntasSeleccionUnica = nuevoNodo;
+                nuevaPregunta->anadirRespuesta();
+                //nuevaPregunta->calificarSeleccionUnica();
+                return;
             while(actual != NULL){ // Recorre la lista
                 if(actual->preguntaActual->valorPregunta > nuevaPregunta->valorPregunta) // si es menor avanza al siguiente
                     actual = actual->siguiente;
@@ -263,11 +265,9 @@ void seccion::anadirPregunta(){
                     actual->anterior = nuevoNodo;
                     break;
                 }
-                }
-
             }
-
         nuevaPregunta->anadirRespuesta();
+        //nuevaPregunta->calificarSeleccionUnica();
         return;
     }
 }
