@@ -134,10 +134,12 @@ struct preguntaRespuestaCorta{
 struct nodoPreguntaSeleccionUnica{
     preguntaSeleccionUnica *preguntaActual;
     nodoPreguntaSeleccionUnica *siguiente;
+    nodoPreguntaSeleccionUnica * anterior;
 };
 struct nodoPreguntaRespuestaCorta{
     preguntaRespuestaCorta *preguntaActual;
     nodoPreguntaRespuestaCorta *siguiente;
+    nodoPreguntaRespuestaCorta *anterior;
 };
 
 class seccion{
@@ -170,26 +172,52 @@ string seccion::getNombre(){
     return nombre;
 }
 void seccion::anadirPregunta(){
+    
+// Solicitud de informacion...
+    
     string pregunta, respuesta;
     int cantidad, valor;
+    
+    /// Si es Pregunta Respuesta Corta.
     if (tipo){
         preguntaRespuestaCorta *nuevaPregunta = new preguntaRespuestaCorta;
         cout << "DIGITE EL TEXTO DE LA PREGUNTA" << endl;
         getline(cin,pregunta,'\n');
         getline(cin,pregunta,'\n');
+        cout << "AHORA DIGITE EL PUNTAJE QUE TENDRÁ LA PREGUNTA: ";
+        int puntaje;
+        cin >> puntaje;
+        nuevaPregunta->PuntajeDePregunta = puntaje;
         nuevaPregunta->textoPregunta = pregunta;
         cout << "AHORA DIGITE LA RESPUESTA CORRECTA" << endl;
-        //1getline(cin,respuesta,'\n');
+        getline(cin,respuesta,'\n');
         getline(cin,respuesta,'\n');
         nuevaPregunta->RespuestaCorrecta = respuesta;
+        
+// Insersion en la lista...
+        
+            nodoPreguntaRespuestaCorta *actual = listaPreguntasRespuestaCorta;
+            nodoPreguntaRespuestaCorta *nuevoNodo = new nodoPreguntaRespuestaCorta;
+            nuevoNodo->preguntaActual = nuevaPregunta;
+            if(actual == NULL)
+                listaPreguntasRespuestaCorta = nuevoNodo;
+            while(actual != NULL){ // Recorre la lista
+                if(actual->preguntaActual->PuntajeObtenido > nuevaPregunta->PuntajeDePregunta) // si es menor avanza al siguiente
+                    actual = actual->siguiente;
+                else{
+                    
+                    nuevoNodo->siguiente = actual;               // si es mayor se inserta antes de acutal.
+                    nuevoNodo->anterior = actual->anterior;
+                    actual->anterior = nuevoNodo;
+                    return;
+                }
 
-        nodoPreguntaRespuestaCorta *nuevoNodo = new nodoPreguntaRespuestaCorta;
-        nuevoNodo->siguiente = listaPreguntasRespuestaCorta;
-        nuevoNodo->preguntaActual = nuevaPregunta;
-        listaPreguntasRespuestaCorta = nuevoNodo;
-        return;
+            }
+
     }
-    else{//pregunta en seleccion unica
+    
+    // Si es pregunta en seleccion unica.
+    else{
         preguntaSeleccionUnica *nuevaPregunta = new preguntaSeleccionUnica;
         cout << "DIGITE EL TEXTO DE LA PREGUNTA: ";
         getline(cin,pregunta,'\n');
@@ -203,16 +231,36 @@ void seccion::anadirPregunta(){
         cout<< "POR ULTIMO, DIGITE EL VALOR DE LA PREGUNTA: ";
         cin>>valor;
         nuevaPregunta->valorPregunta = valor;
-
+        if(valor > listaPreguntasSeleccionUnica->preguntaActual->valorPregunta){
         nodoPreguntaSeleccionUnica *nuevoNodo = new nodoPreguntaSeleccionUnica;
-        nuevoNodo->siguiente = listaPreguntasSeleccionUnica;
-        nuevoNodo->preguntaActual = nuevaPregunta;
-        listaPreguntasSeleccionUnica = nuevoNodo;
+            
+            
+            // Aqui se inserta en la lista para luego agregar las respuestas.
+            
+            
+            nodoPreguntaSeleccionUnica *actual = listaPreguntasSeleccionUnica;
+            nuevoNodo->preguntaActual = nuevaPregunta;
+            if(actual == NULL)
+                listaPreguntasSeleccionUnica = nuevoNodo;
+            while(actual != NULL){ // Recorre la lista
+                if(actual->preguntaActual->valorPregunta > nuevaPregunta->valorPregunta) // si es menor avanza al siguiente
+                    actual = actual->siguiente;
+                else{
+                    
+                    nuevoNodo->siguiente = actual;               // si es mayor se inserta antes de acutal.
+                    nuevoNodo->anterior = actual->anterior;
+                    actual->anterior = nuevoNodo;
+                    break;
+                }
+                }
+                
+            }
 
         nuevaPregunta->anadirRespuesta();
         return;
     }
 }
+    
 void seccion::borrarPregunta(int numeroPregunta){// true-> Respuesta Corta || false-> Seleccion Única
     if (tipo){
         nodoPreguntaRespuestaCorta *actualCorta = listaPreguntasRespuestaCorta;
