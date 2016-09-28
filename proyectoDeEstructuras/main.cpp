@@ -57,8 +57,7 @@ struct preguntaSeleccionUnica{
         if (cabezaRespuesta == NULL){
             nuevaRespuesta->respuesta = correcta;
             nuevaRespuesta->siguiente = nuevaRespuesta;
-            cabezaRespuesta = nuevaRespuesta;
-            cantOpciones--;}
+            cabezaRespuesta = nuevaRespuesta;}
         else {
             cout<<"Digite la respuesta incorrecta: ";
             getline(cin,incorrecta,'\n');
@@ -69,13 +68,13 @@ struct preguntaSeleccionUnica{
             nuevaRespuesta->respuesta = incorrecta;
             actualRespuesta->siguiente = nuevaRespuesta;
             nuevaRespuesta->siguiente = cabezaRespuesta;
-            cantOpciones--;
             }
+        cantOpciones--;
         }
         nodoRespuesta *tmp = cabezaRespuesta;
         cout<<"\n\nVISTA PRELIMINAR DE RESPUESTAS: ";
         do {
-            cout<<tmp->respuesta<<" ";
+            cout<<tmp->respuesta<<"\n";
             tmp=tmp->siguiente;
         } while(tmp!=cabezaRespuesta);
     }
