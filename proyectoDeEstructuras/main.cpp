@@ -29,17 +29,16 @@ struct nodoRespuesta{
 };
 
 struct preguntaSeleccionUnica{
-    int numero;
+    int numero,opcionUsuario,puntajeObtenido,cantOpciones,contador = 0,valorPregunta;
     string textoPregunta,correcta,incorrecta;
-    int cantOpciones;
     nodoRespuesta *cabezaRespuesta;
-    int valorPregunta;
 
     void anadirRespuesta(){
+        contador = cantOpciones;
         cout<<"Digite la respuesta correcta: ";
-        getline(cin,correcta,'\n');
-        getline(cin,correcta,'\n');
-        while(cantOpciones!=0){
+        getline(cin,correcta,'\n');getline(cin,correcta,'\n');
+
+        while(contador!=0){
         nodoRespuesta *nuevaRespuesta = new nodoRespuesta();
         if (cabezaRespuesta == NULL){
             nuevaRespuesta->respuesta = correcta;
@@ -56,7 +55,7 @@ struct preguntaSeleccionUnica{
             actualRespuesta->siguiente = nuevaRespuesta;
             nuevaRespuesta->siguiente = cabezaRespuesta;
             }
-        cantOpciones--;
+        contador--;
         }
         nodoRespuesta *tmp = cabezaRespuesta;
         cout<<"\n\nVISTA PRELIMINAR DE RESPUESTAS: ";
@@ -65,27 +64,39 @@ struct preguntaSeleccionUnica{
             tmp=tmp->siguiente;
         } while(tmp!=cabezaRespuesta);
     }
-    ///AL PARECER ESTA NO ES NECESARIA
-    /*void borrarRespuesta(){
-        string aBorrar;
-        nodoRespuesta *actual = cabezaRespuesta;
-        cout <<"DIGITE LA RESPUESTA A BORRAR: "<< endl;
-        getline(cin,aBorrar,'\n');getline(cin,aBorrar,'\n');
-        while(actual->siguiente!=cabezaRespuesta)
-            if(aBorrar==actual->siguiente->respuesta){
-                nodoRespuesta *tmp = actual->siguiente;
-                actual->siguiente = actual->siguiente->siguiente;
-                free(tmp);
-                cout << "BORRADO" << endl;
-                return;
-            }
-        cout << "respuesta no encontrada..." << endl;
-        return;
-        }*/
-    void calificar(){
-        cout<<"\n\nEscoja una de las opciones que se le presentan a continuacion... ";
-        preguntaSeleccionUnica *preguntaExamen;
-        cout<<preguntaExamen->textoPregunta<<endl;
+    int calificarSeleccionUnica(){
+        nodoRespuesta *respuestaActual = cabezaRespuesta;
+        int tmp = 0;
+        nodoRespuesta *Arreglo[cantOpciones];//que va en la lista que se va a crear de nodos
+        int random = rand()%cantOpciones+1;
+
+        for(int i = 1;i<random;i++)
+            respuestaActual = respuestaActual->siguiente;
+
+        nodoRespuesta *opcion = respuestaActual;
+        Arreglo[tmp] = opcion;
+        tmp++;
+        do {
+            Arreglo[tmp] = opcion->siguiente;
+            tmp++;
+            opcion = opcion->siguiente;
+        } while(opcion->siguiente != respuestaActual);
+
+        cout <<"\n\n"<<textoPregunta << endl;
+        for(int x = 0;x<cantOpciones;x++)
+            cout<<x+1<<". "<<Arreglo[x]->respuesta<<"\n";
+        cout<<"Escoja una opcion: ";cin>>opcionUsuario;
+
+        ///parte de calificar
+
+        if (Arreglo[opcionUsuario-1]==cabezaRespuesta){
+            puntajeObtenido+=valorPregunta;
+            cout<<" Correcto! :)\n";
+            return puntajeObtenido;}
+        else{
+            cout<<" Incorrecto! :(\n";
+            return 0;
+        }
     }
 };
 
@@ -159,12 +170,12 @@ string seccion::getNombre(){
     return nombre;
 }
 void seccion::anadirPregunta(){
-    
+
 // Solicitud de informacion...
-    
+
     string pregunta, respuesta;
     int cantidad, valor;
-    
+
     /// Si es Pregunta Respuesta Corta.
     if (tipo){
         preguntaRespuestaCorta *nuevaPregunta = new preguntaRespuestaCorta;
@@ -180,9 +191,9 @@ void seccion::anadirPregunta(){
         getline(cin,respuesta,'\n');
         getline(cin,respuesta,'\n');
         nuevaPregunta->RespuestaCorrecta = respuesta;
-        
+
 // Insersion en la lista...
-        
+
             nodoPreguntaRespuestaCorta *actual = listaPreguntasRespuestaCorta;
             nodoPreguntaRespuestaCorta *nuevoNodo = new nodoPreguntaRespuestaCorta;
             nuevoNodo->preguntaActual = nuevaPregunta;
@@ -194,7 +205,7 @@ void seccion::anadirPregunta(){
                 if(actual->preguntaActual->PuntajeObtenido > nuevaPregunta->PuntajeDePregunta) // si es menor avanza al siguiente
                     actual = actual->siguiente;
                 else{
-                    
+
                     nuevoNodo->siguiente = actual;               // si es mayor se inserta antes de acutal.
                     nuevoNodo->anterior = actual->anterior;
                     actual->anterior = nuevoNodo;
@@ -204,7 +215,7 @@ void seccion::anadirPregunta(){
             }
 
     }
-    
+
     // Si es pregunta en seleccion unica.
     else{
         preguntaSeleccionUnica *nuevaPregunta = new preguntaSeleccionUnica;
@@ -221,12 +232,12 @@ void seccion::anadirPregunta(){
         cin>>valor;
         nuevaPregunta->valorPregunta = valor;
         nodoPreguntaSeleccionUnica *nuevoNodo = new nodoPreguntaSeleccionUnica;
+        
+        
             nuevaPregunta->anadirRespuesta();
         
             // Aqui se inserta en la lista para luego agregar las respuestas.
             
-            
-        
             nuevoNodo->preguntaActual = nuevaPregunta;
         if(listaPreguntasSeleccionUnica == NULL){
                 listaPreguntasSeleccionUnica = nuevoNodo;
@@ -237,18 +248,18 @@ void seccion::anadirPregunta(){
                 if(actual->preguntaActual->valorPregunta > nuevaPregunta->valorPregunta) // si es menor avanza al siguiente
                     actual = actual->siguiente;
                 else{
-                    
+
                     nuevoNodo->siguiente = actual;               // si es mayor se inserta antes de acutal.
                     nuevoNodo->anterior = actual->anterior;
                     actual->anterior = nuevoNodo;
                     return;
                 
                 }
-                
+
             }
     }
 }
-    
+
 void seccion::borrarPregunta(int numeroPregunta){// true-> Respuesta Corta || false-> Seleccion Única
     if (tipo){
         nodoPreguntaRespuestaCorta *actualCorta = listaPreguntasRespuestaCorta;
