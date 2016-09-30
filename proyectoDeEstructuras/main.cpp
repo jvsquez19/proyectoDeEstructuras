@@ -36,35 +36,35 @@ struct preguntaSeleccionUnica{
 
     void anadirRespuesta(){
         int contador = 0;
-        string correcta,incorrecta;
+        string respuesta;
         contador = cantOpciones;
         cout<<"Digite la respuesta correcta: ";
-        getline(cin,correcta,'\n');getline(cin,correcta,'\n');
+        getline(cin,respuesta,'\n');getline(cin,respuesta,'\n');
 
         while(contador!=0){
         if (cabezaRespuesta == NULL){
             nodoRespuesta *nuevaRespuesta = new nodoRespuesta();
             nuevaRespuesta->siguiente = nuevaRespuesta;
-            nuevaRespuesta->respuesta = correcta;
+            nuevaRespuesta->respuesta = respuesta;
             cabezaRespuesta = nuevaRespuesta;
             contador --;
             continue;
         }
         else {
             cout<<"Digite la respuesta incorrecta: ";
-            getline(cin,incorrecta,'\n');
+            getline(cin,respuesta,'\n');
             nodoRespuesta *actualRespuesta = cabezaRespuesta;
             while(actualRespuesta->siguiente != cabezaRespuesta){
                 actualRespuesta = actualRespuesta->siguiente;
             }
             nodoRespuesta *nuevaRespuesta = new nodoRespuesta();
-            nuevaRespuesta->respuesta = incorrecta;
+            nuevaRespuesta->respuesta = respuesta;
             actualRespuesta->siguiente = nuevaRespuesta;
             nuevaRespuesta->siguiente = cabezaRespuesta;
             contador--;
             continue;
             }
-        
+
         }
         nodoRespuesta *tmp = cabezaRespuesta;
         cout<<"\n\nVISTA PRELIMINAR DE RESPUESTAS: ";
@@ -74,13 +74,14 @@ struct preguntaSeleccionUnica{
         } while(tmp!=cabezaRespuesta);
         return;
     }
-    
+
     int calificarSeleccionUnica(){
         nodoRespuesta *respuestaActual = cabezaRespuesta;
         int opcionUsuario,puntajeObtenido;
         int tmp = 0;
         nodoRespuesta *Arreglo[cantOpciones];//que va en la lista que se va a crear de nodos
         int random = rand()%cantOpciones+1;
+        bool correcto;
 
         for(int i = 1;i<random;i++)
             respuestaActual = respuestaActual->siguiente;
@@ -102,11 +103,10 @@ struct preguntaSeleccionUnica{
         ///parte de calificar
 
         if (Arreglo[opcionUsuario-1]==cabezaRespuesta){
-            puntajeObtenido = valorPregunta;
-            cout<<" Correcto! :)\n";
-            return puntajeObtenido;}
+            correcto = true;
+            return valorPregunta;}
         else{
-            cout<<" Incorrecto! :(\n";
+            correcto = false;
             return 0;
         }
     }
@@ -116,6 +116,7 @@ struct preguntaRespuestaCorta{
     void calificarRespuestaCorta(){
         string respuestaUsuario;
         int aciertos = 0;
+        bool correcto;
         cout << textoPregunta << endl;
         getline(cin,respuestaUsuario,'\n');
         int longitud1 = RespuestaCorrecta.length();
@@ -131,7 +132,14 @@ struct preguntaRespuestaCorta{
                 tmp++;
         }
         PuntajeObtenido = (aciertos * PuntajeDePregunta / longitud1);
+        if (PuntajeObtenido > (PuntajeDePregunta * 0.6)){
+            correcto = true;
+            return PuntajeDePregunta;
+        }
+        correcto = false;
+        return 0;
     }
+
     int numero;
     string textoPregunta;
     string RespuestaCorrecta;
@@ -262,7 +270,7 @@ void seccion::anadirPregunta(){
             }
 
             while(actual != NULL) { // Recorre la lista
-                
+
                 if(actual->preguntaActual->valorPregunta < nuevaPregunta->valorPregunta){ // si es si es mayor inserta
                     nuevoNodo->siguiente = actual;
                     nuevoNodo->anterior = actual->anterior;
@@ -270,7 +278,7 @@ void seccion::anadirPregunta(){
                     actual->anterior = nuevoNodo;
                     //listaPreguntasSeleccionUnica = nuevoNodo;
                     break;
-                    
+
                 }
                 else if(actual->siguiente == NULL){
                     nuevoNodo->anterior = actual;
@@ -278,7 +286,7 @@ void seccion::anadirPregunta(){
                     cout << "actual->siguiente == NULL" << endl;
                     break;
                 }
-                
+
 
 
                 else{
