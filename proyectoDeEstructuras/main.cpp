@@ -113,7 +113,7 @@ struct preguntaSeleccionUnica{
 };
 
 struct preguntaRespuestaCorta{
-    void calificarRespuestaCorta(){
+    int calificarRespuestaCorta(){
         string respuestaUsuario;
         int aciertos = 0;
         bool correcto;
