@@ -12,9 +12,23 @@
 #include <stdlib.h>
 #include <vector>
 #include <functional>
+#include <time.h>
 
 using namespace std;
 
+void split(const string& s, char c,
+           vector<string>& v) {
+    string::size_type i = 0;
+    string::size_type j = s.find(c);
+
+    while (j != string::npos) {
+        v.push_back(s.substr(i, j-i));
+        i = ++j;
+        j = s.find(c, j);
+
+        if (j == string::npos)
+            v.push_back(s.substr(i, s.length()));
+    }}
 /*
 
  SECCION CLASS
@@ -29,11 +43,13 @@ struct nodoRespuesta{
 };
 
 struct preguntaSeleccionUnica{
-    int numero,opcionUsuario,puntajeObtenido,cantOpciones,contador = 0,valorPregunta;
-    string textoPregunta,correcta,incorrecta;
+    int numero,cantOpciones,valorPregunta;
+    string textoPregunta;
     nodoRespuesta *cabezaRespuesta;
 
     void anadirRespuesta(){
+        int contador = 0;
+        string correcta,incorrecta;
         contador = cantOpciones;
         cout<<"Digite la respuesta correcta: ";
         getline(cin,correcta,'\n');getline(cin,correcta,'\n');
@@ -66,6 +82,7 @@ struct preguntaSeleccionUnica{
     }
     int calificarSeleccionUnica(){
         nodoRespuesta *respuestaActual = cabezaRespuesta;
+        int opcionUsuario,puntajeObtenido;
         int tmp = 0;
         nodoRespuesta *Arreglo[cantOpciones];//que va en la lista que se va a crear de nodos
         int random = rand()%cantOpciones+1;
@@ -101,7 +118,7 @@ struct preguntaSeleccionUnica{
 };
 
 struct preguntaRespuestaCorta{
-    void calificar(){
+    void calificarRespuestaCorta(){
         string respuestaUsuario;
         int aciertos = 0;
         cout << textoPregunta << endl;
@@ -163,7 +180,8 @@ public:
     void setNombre();
     string getNombre();
     void menuseccion();
-
+    void imprimirPreguntasSeleccionUnica();
+    void imprimirPreguntasRespuestaCorta();
 
 };
 string seccion::getNombre(){
@@ -199,6 +217,7 @@ void seccion::anadirPregunta(){
             nuevoNodo->preguntaActual = nuevaPregunta;
             if(actual == NULL)
                 listaPreguntasRespuestaCorta = nuevoNodo;
+
             while(actual != NULL){ // Recorre la lista
                 if(actual->preguntaActual->PuntajeObtenido > nuevaPregunta->PuntajeDePregunta) // si es menor avanza al siguiente
                     actual = actual->siguiente;
@@ -213,9 +232,7 @@ void seccion::anadirPregunta(){
             }
 
     }
-
-    // Si es pregunta en seleccion unica.
-    else{
+    else{// Si es pregunta en seleccion unica.
         preguntaSeleccionUnica *nuevaPregunta = new preguntaSeleccionUnica;
         cout << "DIGITE EL TEXTO DE LA PREGUNTA: ";
         getline(cin,pregunta,'\n');
@@ -229,20 +246,18 @@ void seccion::anadirPregunta(){
         cout<< "POR ULTIMO, DIGITE EL VALOR DE LA PREGUNTA: ";
         cin>>valor;
         nuevaPregunta->valorPregunta = valor;
+
         nodoPreguntaSeleccionUnica *nuevoNodo = new nodoPreguntaSeleccionUnica;
+        nodoPreguntaSeleccionUnica *actual = listaPreguntasSeleccionUnica;
 
-
-            // Aqui se inserta en la lista para luego agregar las respuestas.
-
-
-            nodoPreguntaSeleccionUnica *actual = listaPreguntasSeleccionUnica;
             nuevoNodo->preguntaActual = nuevaPregunta;
             if(actual == NULL)
                 listaPreguntasSeleccionUnica = nuevoNodo;
                 nuevaPregunta->anadirRespuesta();
-                //nuevaPregunta->calificarSeleccionUnica();
+                nuevaPregunta->calificarSeleccionUnica();
                 return;
-            while(actual != NULL){ // Recorre la lista
+
+            while(actual != NULL) { // Recorre la lista
                 if(actual->preguntaActual->valorPregunta > nuevaPregunta->valorPregunta) // si es menor avanza al siguiente
                     actual = actual->siguiente;
                 else{
@@ -254,9 +269,35 @@ void seccion::anadirPregunta(){
                 }
             }
         nuevaPregunta->anadirRespuesta();
-        //nuevaPregunta->calificarSeleccionUnica();
+        nuevaPregunta->calificarSeleccionUnica();
         return;
     }
+}
+
+void seccion::imprimirPreguntasSeleccionUnica(){
+    nodoPreguntaSeleccionUnica *actualUnica = listaPreguntasSeleccionUnica;
+    if (actualUnica == NULL){
+        cout<<"No hay preguntas...\n\n";
+        return;
+    }
+    while(actualUnica!=NULL){
+        cout<<"Pregunta: "<<actualUnica->preguntaActual->textoPregunta<<endl;
+        actualUnica = actualUnica->siguiente;
+    }
+    return;
+}
+
+void seccion::imprimirPreguntasRespuestaCorta(){
+    nodoPreguntaRespuestaCorta *actualCorta = listaPreguntasRespuestaCorta;
+    if (actualCorta == NULL){
+        cout<<"No hay preguntas...\n\n";
+        return;
+    }
+    while(actualCorta!=NULL){
+        cout<<"Pregunta: "<<actualCorta->preguntaActual->textoPregunta<<endl;
+        actualCorta = actualCorta->siguiente;
+    }
+    return;
 }
 
 void seccion::borrarPregunta(int numeroPregunta){// true-> Respuesta Corta || false-> Seleccion Única
@@ -314,6 +355,7 @@ void seccion::menuseccion(){
         "2. Borrar pregunta. \n"
         "3. Cambiar nombre de la seccion. \n"
         "4. Salir \n"
+        "5 y 6 Imprimir preguntas. \n"
         "Seleccione una opcion: ";
         cin>>opcion;
         switch(opcion){
@@ -331,6 +373,10 @@ void seccion::menuseccion(){
                 break;
             case '4':
                 return;
+            case '5':
+                imprimirPreguntasSeleccionUnica();
+            case '6':
+                imprimirPreguntasRespuestaCorta();
             default:
                 cout<<"\n\n\n\nERROR FATAL!!!!! ENTRADA INVALIDA";
                 break;
@@ -426,7 +472,7 @@ void examen::borrarSeccion(string nombre){
     }
 }
 int examen::calificarExamen(){
-    int puntaje;
+    int puntaje = 0;
     nodoSeccion *actual = listaSecciones;
     while (actual != NULL) {
         //puntaje += actual->seccionActual->calificarSeccion();
@@ -640,6 +686,7 @@ void menu(archivador *nuevoArchivador){
 }
 
 int main() {
+    srand (time(NULL));
     archivador *nuevoArchivador = new archivador();
     while(true)
         menu(nuevoArchivador);
