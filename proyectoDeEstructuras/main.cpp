@@ -16,19 +16,6 @@
 
 using namespace std;
 
-void split(const string& s, char c,
-           vector<string>& v) {
-    string::size_type i = 0;
-    string::size_type j = s.find(c);
-
-    while (j != string::npos) {
-        v.push_back(s.substr(i, j-i));
-        i = ++j;
-        j = s.find(c, j);
-
-        if (j == string::npos)
-            v.push_back(s.substr(i, s.length()));
-    }}
 /*
 
  SECCION CLASS
@@ -45,7 +32,7 @@ struct nodoRespuesta{
 struct preguntaSeleccionUnica{
     int numero,cantOpciones,valorPregunta;
     string textoPregunta;
-    nodoRespuesta *cabezaRespuesta;
+    nodoRespuesta *cabezaRespuesta = NULL;
 
     void anadirRespuesta(){
         int contador = 0;
@@ -55,23 +42,29 @@ struct preguntaSeleccionUnica{
         getline(cin,correcta,'\n');getline(cin,correcta,'\n');
 
         while(contador!=0){
-        nodoRespuesta *nuevaRespuesta = new nodoRespuesta();
         if (cabezaRespuesta == NULL){
-            nuevaRespuesta->respuesta = correcta;
+            nodoRespuesta *nuevaRespuesta = new nodoRespuesta();
             nuevaRespuesta->siguiente = nuevaRespuesta;
-            cabezaRespuesta = nuevaRespuesta;}
+            nuevaRespuesta->respuesta = correcta;
+            cabezaRespuesta = nuevaRespuesta;
+            contador --;
+            continue;
+        }
         else {
             cout<<"Digite la respuesta incorrecta: ";
             getline(cin,incorrecta,'\n');
             nodoRespuesta *actualRespuesta = cabezaRespuesta;
-            do {
+            while(actualRespuesta->siguiente != cabezaRespuesta){
                 actualRespuesta = actualRespuesta->siguiente;
-            }while(actualRespuesta->siguiente != cabezaRespuesta);
+            }
+            nodoRespuesta *nuevaRespuesta = new nodoRespuesta();
             nuevaRespuesta->respuesta = incorrecta;
             actualRespuesta->siguiente = nuevaRespuesta;
             nuevaRespuesta->siguiente = cabezaRespuesta;
+            contador--;
+            continue;
             }
-        contador--;
+        
         }
         nodoRespuesta *tmp = cabezaRespuesta;
         cout<<"\n\nVISTA PRELIMINAR DE RESPUESTAS: ";
@@ -79,7 +72,9 @@ struct preguntaSeleccionUnica{
             cout<<tmp->respuesta<<"\n";
             tmp=tmp->siguiente;
         } while(tmp!=cabezaRespuesta);
+        return;
     }
+    
     int calificarSeleccionUnica(){
         nodoRespuesta *respuestaActual = cabezaRespuesta;
         int opcionUsuario,puntajeObtenido;
@@ -107,7 +102,7 @@ struct preguntaSeleccionUnica{
         ///parte de calificar
 
         if (Arreglo[opcionUsuario-1]==cabezaRespuesta){
-            puntajeObtenido+=valorPregunta;
+            puntajeObtenido = valorPregunta;
             cout<<" Correcto! :)\n";
             return puntajeObtenido;}
         else{
@@ -163,8 +158,8 @@ private:
     int PuntajeDeSeccion;
     int PuntajeDeSeccionObtenido;
     bool tipo; // true-> Respuesta Corta || false-> Seleccion Única
-    nodoPreguntaSeleccionUnica *listaPreguntasSeleccionUnica;
-    nodoPreguntaRespuestaCorta *listaPreguntasRespuestaCorta;
+    nodoPreguntaSeleccionUnica *listaPreguntasSeleccionUnica = NULL;
+    nodoPreguntaRespuestaCorta *listaPreguntasRespuestaCorta = NULL;
 
 public:
     seccion(bool tipo1, string newnombre){
@@ -215,8 +210,10 @@ void seccion::anadirPregunta(){
             nodoPreguntaRespuestaCorta *actual = listaPreguntasRespuestaCorta;
             nodoPreguntaRespuestaCorta *nuevoNodo = new nodoPreguntaRespuestaCorta;
             nuevoNodo->preguntaActual = nuevaPregunta;
-            if(actual == NULL)
+        if(actual == NULL){
                 listaPreguntasRespuestaCorta = nuevoNodo;
+                return;
+        }
 
             while(actual != NULL){ // Recorre la lista
                 if(actual->preguntaActual->PuntajeObtenido > nuevaPregunta->PuntajeDePregunta) // si es menor avanza al siguiente
@@ -246,30 +243,49 @@ void seccion::anadirPregunta(){
         cout<< "POR ULTIMO, DIGITE EL VALOR DE LA PREGUNTA: ";
         cin>>valor;
         nuevaPregunta->valorPregunta = valor;
+        nuevaPregunta->anadirRespuesta();
+        nuevaPregunta->calificarSeleccionUnica();
 
         nodoPreguntaSeleccionUnica *nuevoNodo = new nodoPreguntaSeleccionUnica;
         nodoPreguntaSeleccionUnica *actual = listaPreguntasSeleccionUnica;
 
             nuevoNodo->preguntaActual = nuevaPregunta;
-            if(actual == NULL)
+        if(actual == NULL){
                 listaPreguntasSeleccionUnica = nuevoNodo;
-                nuevaPregunta->anadirRespuesta();
-                nuevaPregunta->calificarSeleccionUnica();
-                return;
+                return;}
+        else if(actual->preguntaActual->valorPregunta < nuevaPregunta->valorPregunta){
+            nuevoNodo->siguiente = actual;               // si es mayor se inserta antes de acutal.
+            nuevoNodo->anterior = actual->anterior;
+            actual->anterior = nuevoNodo;
+            listaPreguntasSeleccionUnica = nuevoNodo;
+            return;
+            }
 
             while(actual != NULL) { // Recorre la lista
-                if(actual->preguntaActual->valorPregunta > nuevaPregunta->valorPregunta) // si es menor avanza al siguiente
-                    actual = actual->siguiente;
-                else{
-
-                    nuevoNodo->siguiente = actual;               // si es mayor se inserta antes de acutal.
+                
+                if(actual->preguntaActual->valorPregunta < nuevaPregunta->valorPregunta){ // si es si es mayor inserta
+                    nuevoNodo->siguiente = actual;
                     nuevoNodo->anterior = actual->anterior;
+                    actual->anterior->siguiente=nuevoNodo;
                     actual->anterior = nuevoNodo;
+                    //listaPreguntasSeleccionUnica = nuevoNodo;
+                    break;
+                    
+                }
+                else if(actual->siguiente == NULL){
+                    nuevoNodo->anterior = actual;
+                    actual->siguiente = nuevoNodo;
+                    cout << "actual->siguiente == NULL" << endl;
                     break;
                 }
+                
+
+
+                else{
+                    actual = actual->siguiente;
+                    continue;
+                }
             }
-        nuevaPregunta->anadirRespuesta();
-        nuevaPregunta->calificarSeleccionUnica();
         return;
     }
 }
@@ -281,7 +297,7 @@ void seccion::imprimirPreguntasSeleccionUnica(){
         return;
     }
     while(actualUnica!=NULL){
-        cout<<"Pregunta: "<<actualUnica->preguntaActual->textoPregunta<<endl;
+        cout<<"Pregunta: "<<actualUnica->preguntaActual->valorPregunta<<endl;
         actualUnica = actualUnica->siguiente;
     }
     return;

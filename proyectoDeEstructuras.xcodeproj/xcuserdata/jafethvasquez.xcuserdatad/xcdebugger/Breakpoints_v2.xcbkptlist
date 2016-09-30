@@ -70,13 +70,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "proyectoDeEstructuras/main.cpp"
-            timestampString = "496782315.568127"
+            timestampString = "496958516.904699"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "361"
-            endingLineNumber = "361"
-            landmarkName = "nodoSeccion"
-            landmarkType = "14">
+            startingLineNumber = "376"
+            endingLineNumber = "376"
+            landmarkName = "seccion::menuseccion()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -150,11 +150,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "proyectoDeEstructuras/main.cpp"
-            timestampString = "496782315.568127"
+            timestampString = "496958516.904699"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "318"
-            endingLineNumber = "318"
+            startingLineNumber = "333"
+            endingLineNumber = "333"
             landmarkName = "seccion::borrarPregunta(int numeroPregunta)"
             landmarkType = "7">
          </BreakpointContent>
@@ -166,11 +166,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "proyectoDeEstructuras/main.cpp"
-            timestampString = "496780482.782034"
+            timestampString = "496941648.567755"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
             landmarkName = "preguntaSeleccionUnica"
             landmarkType = "14">
          </BreakpointContent>
@@ -182,13 +182,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "proyectoDeEstructuras/main.cpp"
-            timestampString = "496782315.568127"
+            timestampString = "496958516.904699"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "490"
-            endingLineNumber = "490"
-            landmarkName = "class archivador"
-            landmarkType = "3">
+            startingLineNumber = "505"
+            endingLineNumber = "505"
+            landmarkName = "examen::getProfesor()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -198,11 +198,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "proyectoDeEstructuras/main.cpp"
-            timestampString = "496780482.782034"
+            timestampString = "496941648.567755"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
+            landmarkName = "seccion::getNombre()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "proyectoDeEstructuras/main.cpp"
+            timestampString = "496941648.567755"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "252"
+            endingLineNumber = "252"
             landmarkName = "seccion::anadirPregunta()"
             landmarkType = "7">
          </BreakpointContent>
@@ -214,11 +230,91 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "proyectoDeEstructuras/main.cpp"
-            timestampString = "496796688.814838"
+            timestampString = "496941648.567755"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "254"
-            endingLineNumber = "254"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "preguntaSeleccionUnica"
+            landmarkType = "14">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "proyectoDeEstructuras/main.cpp"
+            timestampString = "496941648.567755"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "preguntaSeleccionUnica"
+            landmarkType = "14">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "proyectoDeEstructuras/main.cpp"
+            timestampString = "496941648.567755"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "preguntaSeleccionUnica"
+            landmarkType = "14">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "proyectoDeEstructuras/main.cpp"
+            timestampString = "496941648.567755"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "preguntaSeleccionUnica"
+            landmarkType = "14">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "proyectoDeEstructuras/main.cpp"
+            timestampString = "496941648.567755"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "preguntaSeleccionUnica"
+            landmarkType = "14">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "proyectoDeEstructuras/main.cpp"
+            timestampString = "496957964.720026"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "266"
+            endingLineNumber = "266"
             landmarkName = "seccion::anadirPregunta()"
             landmarkType = "7">
          </BreakpointContent>
