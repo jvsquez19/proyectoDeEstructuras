@@ -35,6 +35,7 @@ struct preguntaSeleccionUnica{
     int numero,cantOpciones,valorPregunta;
     string textoPregunta;
     nodoRespuesta *cabezaRespuesta = NULL;
+    bool correcto;
 
 // Metodo/Funcion dentro del struct que permite añadir una respuesta para la pregunta.
     void anadirRespuesta(){
@@ -84,7 +85,7 @@ struct preguntaSeleccionUnica{
         int tmp = 0;
         nodoRespuesta *Arreglo[cantOpciones];//que va en la lista que se va a crear de nodos
         int random = rand()%cantOpciones+1;
-        bool correcto;
+
 
         for(int i = 1;i<random;i++)
             respuestaActual = respuestaActual->siguiente;
@@ -183,7 +184,7 @@ public:
     }
 
     void ImprimirInforme();
-    int calificarSeccion();
+    int calificarSeccion(bool modalidad);
     void anadirPregunta();
     void borrarPregunta(int numeroPregunta);
     void setNombre();
@@ -191,8 +192,19 @@ public:
     void menuseccion();
     void imprimirPreguntasSeleccionUnica();
     void imprimirPreguntasRespuestaCorta();
+    void imprimirCorrectas();
+    int getPuntajeDeSeccion();
 
 };
+
+int seccion::getPuntajeDeSeccion(){
+    return puntajeDeSeccion;
+}
+
+//////////////////
+////////////////
+//////////////
+
 string seccion::getNombre(){
     return nombre;
 }
@@ -201,7 +213,8 @@ string seccion::getNombre(){
  
  En este metodo se califica la seccion para hacerlo se llama al metodo calificar de cada una de sus preguntas y va sumando la nota que luego se guardara en Puntaje Obtenido.*/
 
-int seccion::calificarSeccion(){
+int seccion::calificarSeccion(bool modalidad){
+    if(modalidad){
     if(tipo){
         nodoPreguntaRespuestaCorta *actual = listaPreguntasRespuestaCorta;
         while(actual != NULL){
@@ -218,6 +231,8 @@ int seccion::calificarSeccion(){
     }
     else{
         nodoPreguntaSeleccionUnica *actual = listaPreguntasSeleccionUnica;
+        if(actual == NULL){
+            return 0;}
         while(actual != NULL){
             puntajeDeSeccion += actual->preguntaActual->valorPregunta;
             actual = actual->siguiente;
@@ -231,13 +246,66 @@ int seccion::calificarSeccion(){
         }
 
         
+        }
     }
-    return puntajeDeSeccionObtenido;
+    else{
+        if(tipo){
+            nodoPreguntaRespuestaCorta *actual = listaPreguntasRespuestaCorta;
+            
+            if(actual == NULL){
+                return 0;}
+            while(actual->siguiente != NULL){
+                actual = actual->siguiente;
+            }
+            nodoPreguntaRespuestaCorta *tmp = actual;
+            while(tmp != NULL){
+                puntajeDeSeccion += actual->preguntaActual->PuntajeDePregunta;
+                tmp = tmp->anterior;
+                continue;
+            }
+            while(actual != NULL){
+                puntajeDeSeccionObtenido += actual->preguntaActual->calificar();
+                actual = actual->anterior;
+                continue;
+            }
+        }
+        else{
+            nodoPreguntaSeleccionUnica *actual = listaPreguntasSeleccionUnica;
+            if(actual == NULL){
+                return 0;
+            }
+            while(actual->siguiente != NULL){
+                actual = actual->siguiente;
+            }
+            nodoPreguntaSeleccionUnica *tmp = actual;
+            
+            while(tmp != NULL){
+                puntajeDeSeccion += tmp->preguntaActual->valorPregunta;
+                tmp = tmp->anterior;
+                continue;
+            }
+            while(actual != NULL){
+                puntajeDeSeccionObtenido += actual->preguntaActual->calificar();
+                actual = actual->anterior;
+                continue;
+            }
+    }
+    }
+        return puntajeDeSeccionObtenido;
 
 };
 
 
+
+
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////
+////////////////
+//////////////
+
 void seccion::anadirPregunta(){
 
 // Solicitud de informacion...
@@ -369,6 +437,52 @@ void seccion::anadirPregunta(){
     }
 }
 
+//////////////////
+////////////////
+//////////////
+
+
+void seccion::imprimirCorrectas(){
+    if(tipo){
+        nodoPreguntaRespuestaCorta *actual = listaPreguntasRespuestaCorta;
+        int contador = 1;
+        while (actual != NULL) {
+            if (actual->preguntaActual->correcto) {
+                cout << "Pregunta " << contador <<" CORRECTA " << actual->preguntaActual->PuntajeDePregunta << " Puntos Obtenidos" << endl;
+                cout << actual->preguntaActual->textoPregunta << "\n\n";
+                contador++;
+            }
+            else{
+                    cout << "Pregunta " << contador <<" INCORRECTA " << actual->preguntaActual->PuntajeDePregunta << " Puntos Perdidos" << endl;
+                    cout << actual->preguntaActual->textoPregunta << "\n\n";
+                    contador++;
+            }
+            actual = actual->siguiente;
+        }
+    }
+    else{
+        nodoPreguntaSeleccionUnica *actual = listaPreguntasSeleccionUnica;
+        int contador = 1;
+        while (actual != NULL) {
+            if (actual->preguntaActual->correcto) {
+                cout << "Pregunta " << contador <<" CORRECTA " << actual->preguntaActual->valorPregunta << " Puntos Obtenidos" << endl;
+                cout << actual->preguntaActual->textoPregunta << "\n\n";
+                contador++;
+            }
+            else{
+                cout << "Pregunta " << contador <<" INCORRECTA " << actual->preguntaActual->valorPregunta << " Puntos Perdidos" << endl;
+                cout << actual->preguntaActual->textoPregunta << "\n\n";
+                contador++;
+            }
+            actual = actual->siguiente;
+        }
+    }
+}
+
+//////////////////
+////////////////
+//////////////
+
 void seccion::imprimirPreguntasSeleccionUnica(){
     nodoPreguntaSeleccionUnica *actualUnica = listaPreguntasSeleccionUnica;
     if (actualUnica == NULL){
@@ -394,6 +508,11 @@ void seccion::imprimirPreguntasRespuestaCorta(){
     }
     return;
 }
+
+//////////////////
+////////////////
+//////////////
+
 
 void seccion::borrarPregunta(int numeroPregunta){// true-> Respuesta Corta || false-> Seleccion Única
     if (tipo){
@@ -442,6 +561,11 @@ void seccion::borrarPregunta(int numeroPregunta){// true-> Respuesta Corta || fa
     return;
     }
 }
+
+//////////////////
+////////////////
+//////////////
+
 void seccion::menuseccion(){
     char opcion;int num;
     while(true){
@@ -529,9 +653,21 @@ public:
     nodoSeccion *getSeccion();
 
 };
+
+//////////////////
+////////////////
+//////////////
+
 nodoSeccion *examen::getSeccion(){
     return listaSecciones;
 }
+
+
+//////////////////
+////////////////
+//////////////
+
+
 void examen::anadirSeccion(bool tipo, string nombre){
     seccion *nuevaSeccion = new seccion(tipo, nombre);
     nodoSeccion *nuevoNodo = new nodoSeccion();
@@ -541,6 +677,11 @@ void examen::anadirSeccion(bool tipo, string nombre){
     cout<<"Seccion agregada con exito.\n\n\n\n";
     return;
 };
+
+//////////////////
+////////////////
+//////////////
+
 void examen::borrarSeccion(string nombre){
     nodoSeccion *actual = listaSecciones;
     if (listaSecciones == NULL){
@@ -566,30 +707,74 @@ void examen::borrarSeccion(string nombre){
     return;
     }
 }
+
+//////////////////
+////////////////
+//////////////
+
 int examen::calificarExamen(){
-    int puntaje = 0;
+    cout << "Digite 1 si desea responder las preguntas de menor a mayor o cualquier tecla para responderlas en orden descendente" << endl;
+    bool modalidad;
+    int opcion;
+    cin >> opcion;
+    if(opcion == 1)
+        modalidad = true;
+    else
+        modalidad = false;
+    int puntajeObtenido = 0;
     nodoSeccion *actual = listaSecciones;
+
     while (actual != NULL) {
-        //puntaje += actual->seccionActual->calificarSeccion();
+        puntajeObtenido += actual->seccionActual->calificarSeccion(modalidad);
         actual = actual->siguiente;
     }
-
-    return puntaje;
+    actual = listaSecciones;
+    while(actual != NULL){
+        puntaje += actual->seccionActual->getPuntajeDeSeccion();
+        actual->seccionActual->imprimirCorrectas();
+        actual = actual->siguiente;
+    }
+    cout << "Su nota en este Examen es de: " << ((puntajeObtenido* 1.0) * 100)/puntaje << endl;
+    return puntajeObtenido;
 }
+
+//////////////////
+////////////////
+//////////////
+
 void examen::setProfesor(string profeNuevo){
     profesor = profeNuevo;
 
 }
+
+//////////////////
+////////////////
+//////////////
+
 string examen::getProfesor(){
     return profesor;
 }
+
+//////////////////
+////////////////
+//////////////
+
 void examen::setNombre(string entradaNombre){
     nombre = entradaNombre;
-
 }
+
+//////////////////
+////////////////
+//////////////
+
 string examen::getNombre(){
     return nombre;
 }
+
+//////////////////
+////////////////
+//////////////
+
 void examen::imprimirInforme(){
     nodoSeccion *tmp = listaSecciones;
     while(tmp != NULL){
@@ -597,6 +782,10 @@ void examen::imprimirInforme(){
         tmp = tmp->siguiente;
     }
 }
+//////////////////
+////////////////
+//////////////
+
 /*
 *********************************************************************************************************************************************
 CLASS ARCHIVADOR
@@ -760,8 +949,9 @@ void menu(archivador *nuevoArchivador){
             cout<<"\n\n\n\nEscriba el nombre del examen que quiere realizar (alumno): ";
             //cin>>nombreExamenAlumno;
             getline(cin,nombreExamenAlumno,'\n');getline(cin,nombreExamenAlumno,'\n');
-            ///nodoExamen *examenAlumno;
-            ///examenAlumno = nuevoArchivador->buscarExamen(nombreExamenAlumno);
+            nodoExamen *examenAlumno;
+            examenAlumno = nuevoArchivador->buscarExamen(nombreExamenAlumno);
+            examenAlumno->examenEnNodo->calificarExamen();
             //esto en calificar//cout<<"Escriba su nombre para realizar el examen: ";
             //esto en calificar//cin>>nombreAlumno;
             return;
