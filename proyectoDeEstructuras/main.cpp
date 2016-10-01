@@ -24,16 +24,19 @@ using namespace std;
  *********************************************************************************************************************************************
 
  */
+// Esta estructura almacena una respuesta de una pregunta de seleccion Única
 struct nodoRespuesta{
     string respuesta;
     nodoRespuesta *siguiente;
 };
 
+// Esta estructura contiene la cantidad de respuestas, los puntos que vale y el número de una pregunta.
 struct preguntaSeleccionUnica{
     int numero,cantOpciones,valorPregunta;
     string textoPregunta;
     nodoRespuesta *cabezaRespuesta = NULL;
 
+// Metodo/Funcion dentro del struct que permite añadir una respuesta para la pregunta.
     void anadirRespuesta(){
         int contador = 0;
         string respuesta;
@@ -75,9 +78,9 @@ struct preguntaSeleccionUnica{
         return;
     }
 
-    int calificarSeleccionUnica(){
+    int calificar(){
         nodoRespuesta *respuestaActual = cabezaRespuesta;
-        int opcionUsuario,puntajeObtenido;
+        int opcionUsuario;
         int tmp = 0;
         nodoRespuesta *Arreglo[cantOpciones];//que va en la lista que se va a crear de nodos
         int random = rand()%cantOpciones+1;
@@ -113,14 +116,25 @@ struct preguntaSeleccionUnica{
 };
 
 struct preguntaRespuestaCorta{
-    int calificarRespuestaCorta(){
+    int numero;
+    string textoPregunta;
+    string RespuestaCorrecta;
+    bool correcto;
+    int PuntajeDePregunta;
+    
+    /*METODO CALIFICAR 
+     
+     Pide al usuario la respuesta y luego compara cada uno de los caracteres del string con la respuesta correcta.
+     Para determinar que respondio correctamente ambos strings deben tener un 60% similitud */
+    
+    int calificar(){
         string respuestaUsuario;
         int aciertos = 0;
-        bool correcto;
         cout << textoPregunta << endl;
         getline(cin,respuestaUsuario,'\n');
         int longitud1 = RespuestaCorrecta.length();
         int longitud2= respuestaUsuario.length();
+        
         int tmp = 0;
         while((tmp < longitud1)&&(tmp < longitud2)){
             if (RespuestaCorrecta[tmp]==respuestaUsuario[tmp]){
@@ -131,21 +145,13 @@ struct preguntaRespuestaCorta{
             else
                 tmp++;
         }
-        PuntajeObtenido = (aciertos * PuntajeDePregunta / longitud1);
-        if (PuntajeObtenido > (PuntajeDePregunta * 0.6)){
+        if (aciertos > (longitud1 * 0.6)){ // Si existe más de un 60% de acierto se califica como correcta y obtiene todos los puntos.
             correcto = true;
             return PuntajeDePregunta;
         }
         correcto = false;
         return 0;
     }
-
-    int numero;
-    string textoPregunta;
-    string RespuestaCorrecta;
-    string respuestaUsuario;
-    int PuntajeDePregunta;
-    int PuntajeObtenido;
 
 };
 
@@ -163,8 +169,8 @@ struct nodoPreguntaRespuestaCorta{
 class seccion{
 private:
     string nombre;
-    int PuntajeDeSeccion;
-    int PuntajeDeSeccionObtenido;
+    int puntajeDeSeccion;
+    int puntajeDeSeccionObtenido;
     bool tipo; // true-> Respuesta Corta || false-> Seleccion Única
     nodoPreguntaSeleccionUnica *listaPreguntasSeleccionUnica = NULL;
     nodoPreguntaRespuestaCorta *listaPreguntasRespuestaCorta = NULL;
@@ -172,7 +178,7 @@ private:
 public:
     seccion(bool tipo1, string newnombre){
         tipo = tipo1;
-        PuntajeDeSeccion = 0;
+        puntajeDeSeccion = 0;
         nombre = newnombre;
     }
 
@@ -190,6 +196,48 @@ public:
 string seccion::getNombre(){
     return nombre;
 }
+
+/* METODO CALIFICAR SECCION: 
+ 
+ En este metodo se califica la seccion para hacerlo se llama al metodo calificar de cada una de sus preguntas y va sumando la nota que luego se guardara en Puntaje Obtenido.*/
+
+int seccion::calificarSeccion(){
+    if(tipo){
+        nodoPreguntaRespuestaCorta *actual = listaPreguntasRespuestaCorta;
+        while(actual != NULL){
+            puntajeDeSeccion += actual->preguntaActual->PuntajeDePregunta;
+            actual = actual->siguiente;
+            continue;
+        }
+        actual = listaPreguntasRespuestaCorta;
+        while(actual != NULL){
+            puntajeDeSeccionObtenido += actual->preguntaActual->calificar();
+            actual = actual->siguiente;
+            continue;
+        }
+    }
+    else{
+        nodoPreguntaSeleccionUnica *actual = listaPreguntasSeleccionUnica;
+        while(actual != NULL){
+            puntajeDeSeccion += actual->preguntaActual->valorPregunta;
+            actual = actual->siguiente;
+            continue;
+        }
+        actual = listaPreguntasSeleccionUnica;
+        while(actual != NULL){
+            puntajeDeSeccionObtenido += actual->preguntaActual->calificar();
+            actual = actual->siguiente;
+            continue;
+        }
+
+        
+    }
+    return puntajeDeSeccionObtenido;
+
+};
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void seccion::anadirPregunta(){
 
 // Solicitud de informacion...
@@ -222,21 +270,44 @@ void seccion::anadirPregunta(){
                 listaPreguntasRespuestaCorta = nuevoNodo;
                 return;
         }
-
-            while(actual != NULL){ // Recorre la lista
-                if(actual->preguntaActual->PuntajeObtenido > nuevaPregunta->PuntajeDePregunta) // si es menor avanza al siguiente
-                    actual = actual->siguiente;
-                else{
-
-                    nuevoNodo->siguiente = actual;               // si es mayor se inserta antes de acutal.
-                    nuevoNodo->anterior = actual->anterior;
-                    actual->anterior = nuevoNodo;
-                    return;
+        
+        else if(actual->preguntaActual->PuntajeDePregunta < nuevaPregunta->PuntajeDePregunta){
+            nuevoNodo->siguiente = actual;               // si es mayor se inserta antes de acutal.
+            nuevoNodo->anterior = actual->anterior;
+            actual->anterior = nuevoNodo;
+            listaPreguntasRespuestaCorta = nuevoNodo;
+            return;
+        }
+        
+        
+                while(actual != NULL) { // Recorre la lista
+                    
+                    if(actual->preguntaActual->PuntajeDePregunta < nuevaPregunta->PuntajeDePregunta){ // si es si es mayor inserta
+                        nuevoNodo->siguiente = actual;
+                        nuevoNodo->anterior = actual->anterior;
+                        actual->anterior->siguiente=nuevoNodo;
+                        actual->anterior = nuevoNodo;
+                        //listaPreguntasSeleccionUnica = nuevoNodo;
+                        break;
+                        
+                    }
+                    else if(actual->siguiente == NULL){
+                        nuevoNodo->anterior = actual;
+                        actual->siguiente = nuevoNodo;
+                        cout << "actual->siguiente == NULL" << endl;
+                        break;
+                    }
+                    
+                    
+                    
+                    else{
+                        actual = actual->siguiente;
+                        continue;
+                    }
                 }
 
             }
 
-    }
     else{// Si es pregunta en seleccion unica.
         preguntaSeleccionUnica *nuevaPregunta = new preguntaSeleccionUnica;
         cout << "DIGITE EL TEXTO DE LA PREGUNTA: ";
@@ -252,7 +323,7 @@ void seccion::anadirPregunta(){
         cin>>valor;
         nuevaPregunta->valorPregunta = valor;
         nuevaPregunta->anadirRespuesta();
-        nuevaPregunta->calificarSeleccionUnica();
+        nuevaPregunta->calificar();
 
         nodoPreguntaSeleccionUnica *nuevoNodo = new nodoPreguntaSeleccionUnica;
         nodoPreguntaSeleccionUnica *actual = listaPreguntasSeleccionUnica;

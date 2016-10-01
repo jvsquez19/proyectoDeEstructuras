@@ -70,12 +70,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "proyectoDeEstructuras/main.cpp"
-            timestampString = "496958516.904699"
+            timestampString = "496987400.324317"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "376"
-            endingLineNumber = "376"
-            landmarkName = "seccion::menuseccion()"
+            startingLineNumber = "402"
+            endingLineNumber = "402"
+            landmarkName = "seccion::borrarPregunta(int numeroPregunta)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -150,11 +150,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "proyectoDeEstructuras/main.cpp"
-            timestampString = "496958516.904699"
+            timestampString = "496987400.324317"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "333"
-            endingLineNumber = "333"
+            startingLineNumber = "359"
+            endingLineNumber = "359"
             landmarkName = "seccion::borrarPregunta(int numeroPregunta)"
             landmarkType = "7">
          </BreakpointContent>
@@ -182,12 +182,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "proyectoDeEstructuras/main.cpp"
-            timestampString = "496958516.904699"
+            timestampString = "496987400.324317"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "505"
-            endingLineNumber = "505"
-            landmarkName = "examen::getProfesor()"
+            startingLineNumber = "531"
+            endingLineNumber = "531"
+            landmarkName = "examen::calificarExamen()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -198,13 +198,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "proyectoDeEstructuras/main.cpp"
-            timestampString = "496941648.567755"
+            timestampString = "496987146.25478"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "182"
-            endingLineNumber = "182"
-            landmarkName = "seccion::getNombre()"
-            landmarkType = "7">
+            startingLineNumber = "185"
+            endingLineNumber = "185"
+            landmarkName = "class seccion"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -214,11 +214,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "proyectoDeEstructuras/main.cpp"
-            timestampString = "496941648.567755"
+            timestampString = "496987400.324317"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "252"
-            endingLineNumber = "252"
+            startingLineNumber = "278"
+            endingLineNumber = "278"
             landmarkName = "seccion::anadirPregunta()"
             landmarkType = "7">
          </BreakpointContent>
@@ -310,11 +310,43 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "proyectoDeEstructuras/main.cpp"
-            timestampString = "496957964.720026"
+            timestampString = "496987400.324317"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "266"
-            endingLineNumber = "266"
+            startingLineNumber = "292"
+            endingLineNumber = "292"
+            landmarkName = "seccion::anadirPregunta()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "proyectoDeEstructuras/main.cpp"
+            timestampString = "496988587.619604"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "233"
+            endingLineNumber = "233"
+            landmarkName = "seccion::anadirPregunta()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "proyectoDeEstructuras/main.cpp"
+            timestampString = "496988596.211156"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "226"
+            endingLineNumber = "226"
             landmarkName = "seccion::anadirPregunta()"
             landmarkType = "7">
          </BreakpointContent>
